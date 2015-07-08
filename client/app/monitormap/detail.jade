@@ -14,16 +14,20 @@ table.ui.table
 				a(ui-sref='monitormap.map({c:"{{obj.parent.lat}}\:{{obj.parent.lon}}\:18"})')
 					i.icon.marker
 		tr
-			td Channel 25
-			td {{obj.channel_25}}
+			td Channel 2.4
+			td {{obj.channel_24}}
 			td Clients
-			td {{obj.laststatistic.client_25}}
+			td {{obj.laststatistic.client_24}}
 		tr
-			td Channel 5
-			td {{obj.channel_5}}
+			td Channel 5.0
+			td {{obj.channel_50}}
 			td Clients
-			td {{obj.laststatistic.client_5}}
+			td {{obj.laststatistic.client_50}}
 h2 Clients
 canvas.chart.chart-line(data="client.data",labels="client.labels",chart-legend="true",series="client.series",style="width:100%;height:200px")
 h2 Online
 canvas.chart.chart-line(data="online.data",labels="online.labels",chart-legend="true",series="online.series",style="width:100%;height:200px")
+h2 Tx/Rx - Bytes
+canvas.chart.chart-line(data="bytes.data",labels="bytes.labels",chart-legend="true",series="bytes.series",style="width:100%;height:200px")
+h2 Tx/Rx - Packets
+canvas.chart.chart-line(data="packets.data",labels="packets.labels",chart-legend="true",series="packets.series",style="width:100%;height:200px")

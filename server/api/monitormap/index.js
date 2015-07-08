@@ -83,8 +83,8 @@ module.exports = function(socket) {
 			parent_id:obj.parent_id,
 			lat:obj.lat,
 			lon:obj.lon,
-			channel_25:obj.channel_25,
-			channel_5:obj.channel_5
+			channel_24:obj.channel_24,
+			channel_50:obj.channel_50
 		}, {where: {id: obj.id}}).then(function(node){
 			if(node){
 				_getId(obj.id,function(dbnode){
@@ -106,8 +106,8 @@ module.exports = function(socket) {
 			parent_id:obj.parent_id,
 			lat:obj.lat,
 			lon:obj.lon,
-			channel_25:obj.channel_25,
-			channel_5:obj.channel_5
+			channel_24:obj.channel_24,
+			channel_50:obj.channel_50
 		}).then(function(node){
 			if(node){
 				_getId(node,function(dbnode){

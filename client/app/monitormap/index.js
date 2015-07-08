@@ -20,5 +20,9 @@ angular.module('monitormapApp')
 			url:'/detail/:id',
 			templateUrl: 'app/monitormap/detail.html',
 			controller: 'DetailMonitormapCtrl'
+		})
+		.state('monitormap.tools', {
+			url:'/tools',
+			templateUrl: 'app/monitormap/tools.html'
 		});
 }]);

@@ -22,7 +22,20 @@ angular.module('monitormapApp')
 		});
   }
 	socket.on('monitormap:node:change', function (obj) {
-		o.list[obj.id] = obj;
+		console.log(obj.laststatistic);
+		if(obj.laststatistic){
+			o.list[obj.id] = obj;
+		}else{
+			console.log('ERROR fetch status: '+obj.name);
+		}
+  });
+	socket.on('monitormap:node:status:change', function (obj) {
+		console.log(obj.laststatistic);
+		if(obj.laststatistic && o.list[obj.id]){
+			o.list[obj.id].laststatistic = obj.laststatistic;
+		}else{
+			console.log('ERROR fetch status: '+obj.name);
+		}
   });
 	$rootScope.$watch(function () {
         return o.list;

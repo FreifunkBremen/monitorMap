@@ -16,6 +16,10 @@ msgstr ""
 msgid "Node"
 msgstr ""
 
+#: .tmp/components/navbar/navbar.html:1
+msgid "Tools"
+msgstr ""
+
 #: .tmp/app/monitormap/map.html:1
 msgid "Where I am"
 msgstr ""

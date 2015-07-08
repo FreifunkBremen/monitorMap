@@ -4,11 +4,12 @@
 // =================================
 module.exports = {
 	DOMAIN:'http://localhost:9000',
-	pingipv6:'2001:bf7:540:0',
-	//ms
-	SCAN_TIMER:{
-		ping:1000,
-		recv:60000,
+	scanner:{
+		ipv6_prefix:'2001:bf7:540:0',
+		ipv6_interface:'2001:bf7:540:0:4823:deff:fe52:4488',
+		ipv6_pingall:'ff02::1',
+		timer_ping:10, //sec
+		timer_alfred:50,
 	},
 	// Server IP
 	ip:       process.env.IP ||

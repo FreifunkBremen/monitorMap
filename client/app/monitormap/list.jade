@@ -1,5 +1,7 @@
 h1.ui.header Nodes
-	.sub.header List
+	.sub.header
+		i.icon.list
+		| List
 table.ui.table
 	thead
 		tr
@@ -16,7 +18,7 @@ table.ui.table
 			td
 				i.icon.check.circle(ng-if='item.laststatistic.status',style="color:green")
 				i.icon.remove.circle(ng-if='!item.laststatistic.status',style="color:red")
-			td {{item.laststatistic.client_5+item.laststatistic.client_25}}
+			td {{item.laststatistic.client_50+item.laststatistic.client_24}}
 			td
 				a(ui-sref='monitormap.map({c:"{{item.lat}}\:{{item.lon}}\:16"})')
 					i.icon.marker
@@ -26,6 +28,6 @@ table.ui.table
 				| Summe {{list.length}}
 			th
 				| Up {{getUpTotal()}}
-				| Down {{getUpTotal() - list.length}}
+				| Down {{list.length - getUpTotal()}}
 			th(colspan='2')
 				| Clients {{getClientsTotal()}}

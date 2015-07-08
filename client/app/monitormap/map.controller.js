@@ -53,17 +53,19 @@ angular.module('monitormapApp')
     function transformMap(){
       var output={markers:{},paths:{}};
       nodes.list.forEach(function(item){
-        output.markers[item.id] = transformNode(item);
-				if(item.parent_id)
-					output.paths[item.id]={
-						color: (item.laststatistic.status && nodes.list[item.parent_id].laststatistic.status)?'green':'red',
-            weight: 2,
-            latlngs: [
-							{lat:nodes.list[item.id].lat,lng:nodes.list[item.id].lon},
-							{lat:nodes.list[item.parent_id].lat,lng:nodes.list[item.parent_id].lon},
-						],
-						label: {message: "<h3>Link "+item.name+" <-> "+item.parent.name+" </h3>"}
-					};
+				if(item.lat && item.lon && item.laststatistic.status){
+	        output.markers[item.id] = transformNode(item);
+					if(item.parent_id)
+						output.paths[item.id]={
+							color: (item.laststatistic.status && nodes.list[item.parent_id].laststatistic.status)?'green':'red',
+	            weight: 2,
+	            latlngs: [
+								{lat:nodes.list[item.id].lat,lng:nodes.list[item.id].lon},
+								{lat:nodes.list[item.parent_id].lat,lng:nodes.list[item.parent_id].lon},
+							],
+							label: {message: "<h3>Link "+item.name+" <-> "+item.parent.name+" </h3>"}
+						};
+				}
       });
       return output;
     }

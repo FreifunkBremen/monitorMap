@@ -5,8 +5,22 @@
 'use strict';
 
 var errors = require('./components/errors');
+var ansible = require('./components/ansible');
+var alfred = require('./components/alfred');
 
 module.exports = function(app) {
+	app.route('/json/alfred')
+		.get(function(req, res) {
+			alfred.getJSON(function(data){
+							res.jsonp(data);
+			});
+		});
+	app.route('/json/ansible')
+		.get(function(req, res) {
+			ansible.getJSON(function(data){
+							res.jsonp(data);
+			});
+		});
 
 	// All undefined asset or api routes should return a 404
 	app.route('/:url(api|auth|components|app|bower_components|assets)/*')

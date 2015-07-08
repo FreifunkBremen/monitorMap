@@ -24,7 +24,7 @@ angular.module('monitormapApp')
 		$scope.getClientsTotal = function(){
 	    var total = 0;
 	    for(var i = 0; i < $scope.list.length; i++){
-        total += $scope.list[i].laststatistic.client_5+$scope.list[i].laststatistic.client_25;
+        total += $scope.list[i].laststatistic.client_50+$scope.list[i].laststatistic.client_24;
 	    }
 	    return total;
 		}

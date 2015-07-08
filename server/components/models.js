@@ -14,8 +14,8 @@ var config = require('../config/environment').database,
 		mac:{type: Sequelize.STRING},
 		lat:{type: Sequelize.FLOAT},
 		lon:{type: Sequelize.FLOAT},
-		channel_25:{type: Sequelize.INTEGER},
-		channel_5:{type: Sequelize.INTEGER}
+		channel_24:{type: Sequelize.INTEGER},
+		channel_50:{type: Sequelize.INTEGER}
 	},{tableName:'node'});
 
 	Node.hasMany(Node,{foreignKey:'parent_id',as:'childrens'});
@@ -26,8 +26,12 @@ var config = require('../config/environment').database,
 		//node_id:{type:Sequelize.INTEGER,references:{model:Node,key:'id'}},
 		datetime:{type: Sequelize.DATE},
 		status:{type:Sequelize.BOOLEAN},
-		client_25:{type: Sequelize.INTEGER},
-		client_5:{type: Sequelize.INTEGER},
+		client_24:{type: Sequelize.INTEGER},
+		client_50:{type: Sequelize.INTEGER},
+		traffic_tx_bytes:{type: Sequelize.INTEGER},
+		traffic_tx_packets:{type: Sequelize.INTEGER},
+		traffic_rx_bytes:{type: Sequelize.INTEGER},
+		traffic_rx_packets:{type: Sequelize.INTEGER},
 	},{tableName:'node_statistic'});
 
 	Node.hasMany(Node_Statistic,{foreignKey:'node_id',as:'statistics'});
