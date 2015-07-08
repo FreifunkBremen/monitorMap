@@ -1,0 +1,10 @@
+node_modules
+public
+.tmp
+.idea
+client/bower_components
+client/translations.js
+dist
+/server/config/local.env.js
+
+*~

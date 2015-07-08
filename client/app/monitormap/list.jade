@@ -1,0 +1,31 @@
+h1.ui.header Nodes
+	.sub.header List
+table.ui.table
+	thead
+		tr
+			th Name
+			th MAC
+			th Status
+			th Client
+			th Map
+	tbody
+		tr(ng-repeat='item in list')
+			td
+				a(ui-sref='monitormap.detail({id:item.id})') {{item.name}}
+			td {{item.mac}}
+			td
+				i.icon.check.circle(ng-if='item.laststatistic.status',style="color:green")
+				i.icon.remove.circle(ng-if='!item.laststatistic.status',style="color:red")
+			td {{item.laststatistic.client_5+item.laststatistic.client_25}}
+			td
+				a(ui-sref='monitormap.map({c:"{{item.lat}}\:{{item.lon}}\:16"})')
+					i.icon.marker
+	tfoot
+		tr
+			th(colspan='2')
+				| Summe {{list.length}}
+			th
+				| Up {{getUpTotal()}}
+				| Down {{getUpTotal() - list.length}}
+			th(colspan='2')
+				| Clients {{getClientsTotal()}}

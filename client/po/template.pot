@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Project-Id-Version: \n"
+
+#: .tmp/components/navbar/navbar.html:1
+msgid "List"
+msgstr ""
+
+#: .tmp/components/navbar/navbar.html:1
+msgid "Map"
+msgstr ""
+
+#: .tmp/app/monitormap/detail.html:1
+msgid "Node"
+msgstr ""
+
+#: .tmp/app/monitormap/map.html:1
+msgid "Where I am"
+msgstr ""

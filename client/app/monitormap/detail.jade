@@ -1,0 +1,29 @@
+h1.ui.header {{'Node'|translate}} {{obj.name}}
+	.sub.header MAC: {{obj.mac}}
+		a(ui-sref='monitormap.map({c:"{{obj.lat}}\:{{obj.lon}}\:16"})')
+			i.icon.marker
+table.ui.table
+	tbody
+		tr
+			td(colspan='2') Owner
+			td(colspan='2') {{obj.owner}}
+		tr(ng-if='obj.parent')
+			td(colspan='2') Parent
+			td(colspan='2')
+				a(ui-sref='monitormap.detail({id:obj.parent.id})') {{obj.parent.name}}
+				a(ui-sref='monitormap.map({c:"{{obj.parent.lat}}\:{{obj.parent.lon}}\:18"})')
+					i.icon.marker
+		tr
+			td Channel 25
+			td {{obj.channel_25}}
+			td Clients
+			td {{obj.laststatistic.client_25}}
+		tr
+			td Channel 5
+			td {{obj.channel_5}}
+			td Clients
+			td {{obj.laststatistic.client_5}}
+h2 Clients
+canvas.chart.chart-line(data="client.data",labels="client.labels",chart-legend="true",series="client.series",style="width:100%;height:200px")
+h2 Online
+canvas.chart.chart-line(data="online.data",labels="online.labels",chart-legend="true",series="online.series",style="width:100%;height:200px")
