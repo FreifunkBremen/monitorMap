@@ -13,6 +13,7 @@ msgid "Map"
 msgstr ""
 
 #: .tmp/app/monitormap/detail.html:1
+#: .tmp/app/monitormap/edit.html:1
 msgid "Node"
 msgstr ""
 

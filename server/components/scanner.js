@@ -6,7 +6,7 @@ var Ping = require("ping-wrapper");
 
 Ping.configure({
   "command": "ping6",
-  "args": ["-n","-c",config.scanner.timer_count,"-i",config.scanner.timer_ping,"-I",config.scanner.ipv6_interface],
+  "args": ["-n","-i",config.scanner.timer_ping,"-I",config.scanner.ipv6_interface],
   "events": {
     "ping": {
       "regexp": {
@@ -33,152 +33,180 @@ var io;
 var ping = new Ping(config.scanner.ipv6_pingall);
 var intervalObjPing,intervalObjAlfred;
 
+var nodes;
+
+var updateDBCache = function(){
+  models.Node.findAll({include:[
+    {model:models.Node_Statistic,as:'statistics'}
+  ]}).then(function(nodesList){
+    nodes = nodesList;
+  });
+};
+
+var pushFakeStatic = function(node,statistics){
+  var copyNode = {
+    id:node.id,
+    name:node.name,
+    owner:node.owner,
+    parent_id:node.parent_id,
+    mac:node.mac,
+    lat:node.lat,
+    lon:node.lon,
+    channel_24:node.channel_24,
+    channel_50:node.channel_50,
+    channel_24_power:node.channel_24_power,
+    channel_50_power:node.channel_50_power,
+    statistics:[]
+  };
+  for(var i in node.statistics){
+    copyNode.statistics.push({
+      datetime:node.statistics[i].datetime,
+      status:node.statistics[i].status,
+      client_24:node.statistics[i].client_24,
+      client_50:node.statistics[i].client_50,
+      traffic_tx_bytes:node.statistics[i].traffic_tx_bytes,
+      traffic_tx_packets:node.statistics[i].traffic_tx_packets,
+      traffic_rx_bytes:node.statistics[i].traffic_rx_bytes,
+      traffic_rx_packets:node.statistics[i].traffic_rx_packets,
+      });
+  }
+  copyNode.statistics.push(statistics);
+  return copyNode;
+}
 
 var _restartPing = function(){
   clearInterval(intervalObjPing);
-  models.Node.findAll({include:[
-    {model:models.Node_Statistic,as:'statistics'}
-  ]}).then(function(nodes){
-    //var nodes=[];
-    var nodes_laststatistic = [];
-    if(nodes.length>0){
+  updateDBCache();
+  ping.on('ping', function(data){
+    var host,exists = false;
+    host = ipv6calc.fromIPv6(data.host);
+    if(nodes){
       for(var i in nodes){
-        if(nodes[i].statistics.length>0){
-          nodes_laststatistic[i] = {datetime:0};
-          nodes.forEach(function(item){
-            if(nodes_laststatistic[i].datetime<item.datetime)
-              nodes_laststatistic[i] = item;
-          });
+        if(typeof host.mac !== 'undefined' && nodes[i].mac==host.mac){
+          exists = i;
+          break;
         }
       }
     }
-    ping.on('ping', function(data){
-      var host,exists = false;
-      host = ipv6calc.fromIPv6(data.host);
-      if(nodes){
-        for(var i in nodes){
-          if(typeof host.mac !== 'undefined' && nodes[i].mac==host.mac){
-            exists = i;
-          }
-        }
-      }
-      if(typeof host.mac !== 'undefined' && !exists){
-        var tmp = {
-          id:parseInt(host.mac.split(":").join('')),
-          name:(host.mac.split(":").join('')),
-          mac:host.mac,
-          lat:config.scanner.latitude,
-          lon:config.scanner.longitude,
-        };
-        var i = nodes.push(tmp);
-        nodes_laststatistic.push({});
-        exists = i-1;
-        nodes_laststatistic[exists] = {
+    if(typeof host.mac !== 'undefined' && !exists){
+      models.Node.create({
+        name:(host.mac.split(":").join('')),
+        mac:host.mac,
+        channel_24:config.scanner.default_channel_24,
+        channel_50:config.scanner.default_channel_50,
+        channel_24_power:config.scanner.default_channel_24_power,
+        channel_50_power:config.scanner.default_channel_50_power,
+        lat:config.scanner.latitude,
+        lon:config.scanner.longitude,
+        statistics:{
           client_50:0,
           client_24:0,
           datetime:(new Date()).toString(),
-          status:true
-        };
-        var tmp = (nodes[exists].dataValues)?nodes[exists].dataValues:nodes[exists];
-        tmp.laststatistic = nodes_laststatistic[exists];
-        /*
-        if(tmp.laststatistic)
-          io.emit('monitormap:node:change',tmp);*/
-      }
-      if(typeof host.mac !== 'undefined' && exists && !nodes_laststatistic[exists].status){
-        nodes_laststatistic[exists].datetime = (new Date()).toString();
-        nodes_laststatistic[exists].status = true;
-        var tmp = (nodes[exists].dataValues)?nodes[exists].dataValues:nodes[exists];
-        tmp.laststatistic = nodes_laststatistic[exists];
-        console.log(" UP : "+nodes[exists].mac);
-        if(tmp.laststatistic)
-          io.emit('monitormap:node:status:change',tmp);
-      }
-    });
-    ping.on('fail', function(data){
-        console.log('Fail', data);
-    });
-    ping.on('exit', function(exit){
-      if(exit)
-        _restartPing();
-    });
-    ping.start();
+          status:true,
+          traffic_tx_bytes:0,
+          traffic_tx_packets:0,
+          traffic_rx_bytes:0,
+          traffic_rx_packets:0
+        }
+      },{
+        include:[{model:models.Node_Statistic,as:'statistics'}],
+        ignoreDuplicates: true
+      }).then(function(node){
+        nodes.push(node);
+        io.emit('monitormap:node:change',node);
+        updateDBCache();
+        console.log("ADD : "+node.mac);
+      });
+    }
+    // Just Toggle Notification only without fakePush possible
+    if(typeof host.mac !== 'undefined' && exists){
+      var tmp = pushFakeStatic(nodes[exists],{
+        client_50:0,
+        client_24:0,
+        datetime:(new Date()).toString(),
+        status:true,
+        traffic_tx_bytes:0,
+        traffic_tx_packets:0,
+        traffic_rx_bytes:0,
+        traffic_rx_packets:0
+      });
+      //console.log(" UP : "+tmp.mac);
+      io.emit('monitormap:node:status:change',  tmp);
 
-    var ping_repeat = function(){
-      if(nodes){
-        for(var i in nodes){
-          if(((new Date(nodes_laststatistic[i].datetime)).getTime())< ((new Date()).getTime()-(config.scanner.timer_ping*1000+10)*5)){
-            nodes_laststatistic[i].status = false;
-            nodes_laststatistic[i].datetime = (new Date()).toString();
-            var tmp = (nodes[i].dataValues)?nodes[i].dataValues:nodes[i];
-            tmp.laststatistic = nodes_laststatistic[i];
-            console.log("DOWN: "+nodes[i].mac);
-            if(tmp.laststatistic)
-              io.emit('monitormap:node:status:change',tmp);
-          }
+    }
+  });
+  ping.on('fail', function(data){
+      console.log('Fail', data);
+  });
+  ping.on('exit', function(exit){
+    console.log('PING ERROR');
+  });
+  ping.start();
+
+  var ping_repeat = function(){
+    if(nodes){
+      for(var i in nodes){
+        var cur = nodes[i].statistics[nodes[i].statistics.length-1];
+
+        if(((new Date(cur.datetime)).getTime())< ((new Date()).getTime()-(config.scanner.timer_ping*1000+10)*10)){
+          var tmp = pushFakeStatic(nodes[i],{
+            client_50:0,
+            client_24:0,
+            datetime:(new Date()).toString(),
+            status:false,
+            traffic_tx_bytes:0,
+            traffic_tx_packets:0,
+            traffic_rx_bytes:0,
+            traffic_rx_packets:0
+          });
+          console.log("DOWN: "+tmp.mac);
+          io.emit('monitormap:node:status:change',tmp);
         }
       }
     }
+  }
 
-    intervalObjPing = setInterval(ping_repeat,config.scanner.timer_ping*1000);
-
-  });
+  intervalObjPing = setInterval(ping_repeat,config.scanner.timer_ping*1000);
 };
 var _restartAlfred = function(){
   clearInterval(intervalObjAlfred);
+  updateDBCache();
   /**
    * Alfred change statistics
    * TODO: Add create to models
    */
 
   var alfred_repeat = function(){
-    models.Node.findAll({include:[
-      {model:models.Node_Statistic,as:'statistics'}
-    ]}).then(function(nodes){
-      //var nodes=[];
-      var nodes_laststatistic = [];
-      if(nodes.length>0){
-        for(var i in nodes){
-          if(nodes[i].statistics.length>0){
-            nodes_laststatistic[i] = {datetime:0};
-            nodes.forEach(function(item){
-              if(nodes_laststatistic[i].datetime<item.datetime)
-                nodes_laststatistic[i] = item;
-            });
-          }
-        }
-      }
-      alfred.getJSON(function(data){
-        for(var i in data){
-          // ONLY Nodes with Clients
-          if(data[i].clients && typeof data[i].clients.wifi !== 'undefined'){
-            if(nodes){
-              for(var j in nodes){
-                if(data[i].node_id == nodes[j].mac.split(":").join('')){
-                  nodes_laststatistic[j] ={
-                    datetime:(new Date()).toString(),
-                    status:true,
-                    client_50:0,
-                    client_24:data[i].clients.wifi||0,
-                    traffic_tx_bytes:data[i].traffic.tx.bytes||0,
-                    traffic_tx_packets:data[i].traffic.tx.packets||0,
-                    traffic_rx_bytes:data[i].traffic.rx.bytes||0,
-                    traffic_rx_packets:data[i].traffic.rx.packets||0,
-                  }
-                  if(!nodes[j].statistics)
-                    nodes[j].statistics=[];
-                  nodes[j].statistics.push(nodes_laststatistic[j]);
-                  var tmp = (nodes[j].dataValues)?nodes[j].dataValues:nodes[j];
-                  tmp.laststatistic = nodes_laststatistic[j];
-                  console.log("A-UP: "+nodes[j].mac);
-                  if(tmp.laststatistic)
-                    io.emit('monitormap:node:status:change',tmp);
+    alfred.getJSON(function(data){
+      for(var i in data){
+        // ONLY Nodes with Clients
+        if(data[i].clients && typeof data[i].clients.wifi !== 'undefined'){
+          if(nodes){
+            for(var j in nodes){
+              if(data[i].node_id == nodes[j].mac.split(":").join('')){
+                /*
+                {
+                  node_id:nodes[j].id,
+                  datetime:(new Date()).toString(),
+                  status:true,
+                  client_50:0,
+                  client_24:data[i].clients.wifi||0,
+                  traffic_tx_bytes:data[i].traffic.tx.bytes||0,
+                  traffic_tx_packets:data[i].traffic.tx.packets||0,
+                  traffic_rx_bytes:data[i].traffic.rx.bytes||0,
+                  traffic_rx_packets:data[i].traffic.rx.packets||0,
                 }
+                */
+                console.log("A-UP: "+nodes[j].mac);
+                /*
+                if(tmp.laststatistic)
+                  io.emit('monitormap:node:status:change',tmp);
+                */
               }
             }
           }
         }
-      });
+      }
     });
   }
   intervalObjAlfred = setInterval(alfred_repeat,config.scanner.timer_alfred*1000);
@@ -188,6 +216,6 @@ var _restartAlfred = function(){
 module.exports = function(ioInit){
   io = ioInit;
   _restartPing();
-  _restartAlfred();
+  //_restartAlfred();
   return;
 }

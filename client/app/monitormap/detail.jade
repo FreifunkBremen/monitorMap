@@ -17,12 +17,12 @@ table.ui.table
 			td Channel 2.4
 			td {{obj.channel_24}}
 			td Clients
-			td {{obj.laststatistic.client_24}}
+			td {{obj.statistics[item.statistics.length-1].client_24}}
 		tr
 			td Channel 5.0
 			td {{obj.channel_50}}
 			td Clients
-			td {{obj.laststatistic.client_50}}
+			td {{obj.statistics[item.statistics.length-1].client_50}}
 h2 Clients
 canvas.chart.chart-line(data="client.data",labels="client.labels",chart-legend="true",series="client.series",style="width:100%;height:200px")
 h2 Online

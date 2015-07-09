@@ -21,6 +21,11 @@ angular.module('monitormapApp')
 			templateUrl: 'app/monitormap/detail.html',
 			controller: 'DetailMonitormapCtrl'
 		})
+		.state('monitormap.edit', {
+			url:'/edit/:id',
+			templateUrl: 'app/monitormap/edit.html',
+			controller: 'EditMonitormapCtrl'
+		})
 		.state('monitormap.tools', {
 			url:'/tools',
 			templateUrl: 'app/monitormap/tools.html'

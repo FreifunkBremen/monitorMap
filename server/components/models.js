@@ -6,16 +6,18 @@ var config = require('../config/environment').database,
 		port:    config.port,
 	}),
 	Node = DB.define('node',{
-		id:{type:Sequelize.INTEGER,primaryKey: true},
+		id:{type:Sequelize.INTEGER,primaryKey: true,autoIncrement: true},
 		name:{type: Sequelize.STRING},
 		owner:{type: Sequelize.STRING},
 		parent_id:{type:Sequelize.INTEGER},
 		//parent_id:{type:Sequelize.INTEGER,references:{tableName:'node',key:'id'}},
-		mac:{type: Sequelize.STRING},
+		mac:{type: Sequelize.STRING, unique: true},
 		lat:{type: Sequelize.FLOAT},
 		lon:{type: Sequelize.FLOAT},
 		channel_24:{type: Sequelize.INTEGER},
-		channel_50:{type: Sequelize.INTEGER}
+		channel_50:{type: Sequelize.INTEGER},
+		channel_24_power:{type: Sequelize.INTEGER},
+		channel_50_power:{type: Sequelize.INTEGER}
 	},{tableName:'node'});
 
 	Node.hasMany(Node,{foreignKey:'parent_id',as:'childrens'});

@@ -6,18 +6,7 @@ var _getId = function(id,fn){
 			{model:models.Node,as:'parent'}
 		],
 	}).then(function(node){
-		if(node.length>0){
-			if(node[0].statistics.length>0){
-				node[0].laststatistic = {datetime:0};
-				node[0].statistics.forEach(function(item){
-					if(node[0].laststatistic.datetime<item.datetime)
-						node[0].laststatistic = item;
-				});
-				node[0].dataValues.laststatistic = node[0].laststatistic;
-			}
-
 			fn(node[0]);
-		}
 	});
 }
 var _detail = function(id,fn){
@@ -75,7 +64,7 @@ module.exports = function(socket) {
 	});
 
 
-	socket.on('monitormap:node:edit',function(obj,fn){
+	socket.on('monitormap:node:save',function(obj,fn){
 		models.Node.update({
 			name:obj.name,
 			owner:obj.owner,
@@ -84,7 +73,9 @@ module.exports = function(socket) {
 			lat:obj.lat,
 			lon:obj.lon,
 			channel_24:obj.channel_24,
-			channel_50:obj.channel_50
+			channel_50:obj.channel_50,
+			channel_24_power:obj.channel_24_power,
+			channel_50_power:obj.channel_50_power
 		}, {where: {id: obj.id}}).then(function(node){
 			if(node){
 				_getId(obj.id,function(dbnode){

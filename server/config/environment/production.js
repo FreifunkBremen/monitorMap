@@ -5,11 +5,19 @@
 module.exports = {
 	DOMAIN:'http://localhost:9000',
 	scanner:{
-		ipv6_prefix:'2001:bf7:540:0',
-		ipv6_interface:'2001:bf7:540:0:4823:deff:fe52:4488',
+		ipv6_prefix:'2001:1a80:303b:0',
+		ipv6_interface:'2001:1a80:303b:0:ba76:3fff:fed3:6e5c',
 		ipv6_pingall:'ff02::1',
 		timer_ping:10, //sec
+		timer_count:3,
 		timer_alfred:50,
+		socket_alfred:"/tmp/alfred",
+		latitude:53.0698,
+		longitude:8.8154,
+		default_channel_24:11,
+		default_channel_50:140,
+		default_channel_50_power:10,
+		default_channel_24_power:10,
 	},
 	// Server IP
 	ip:       process.env.IP ||

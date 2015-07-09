@@ -15,27 +15,33 @@ angular.module('monitormapApp')
       o.list[result.node.id] = result.node;
     });
   }
-  o.detail = function(id){
+  o.detail = function(id,fn){
 		socket.emit('monitormap:node:detail',{id:id},function(result) {
-			console.log(result);
       o.list[id] = result.node;
+			if(!fn)
+				fn();
+		});
+  }
+	o.save = function(ob,fn){
+		socket.emit('monitormap:node:save',obj,function(result) {
+      o.list[obj.id] = result.node;
+			if(!fn)
+				fn();
 		});
   }
 	socket.on('monitormap:node:change', function (obj) {
-		console.log(obj.laststatistic);
-		if(obj.laststatistic){
-			o.list[obj.id] = obj;
-		}else{
-			console.log('ERROR fetch status: '+obj.name);
-		}
+		o.list[obj.id] = obj;
   });
 	socket.on('monitormap:node:status:change', function (obj) {
-		console.log(obj.laststatistic);
-		if(obj.laststatistic && o.list[obj.id]){
-			o.list[obj.id].laststatistic = obj.laststatistic;
+		console.log(obj);
+		o.list[obj.id] = obj;
+		/*
+		console.log(obj.statistics[item.statistics.length-1]);
+		if(obj.statistics[item.statistics.length-1] && o.list[obj.id]){
+			o.list[obj.id].statistics[item.statistics.length-1] = obj.statistics[item.statistics.length-1];
 		}else{
 			console.log('ERROR fetch status: '+obj.name);
-		}
+		}*/
   });
 	$rootScope.$watch(function () {
         return o.list;
