@@ -618,7 +618,7 @@ module.exports = function (grunt) {
 			'injector:stylus',
 			'nggettext_compile',
 			'concurrent:server',
-			'nggettext_extract',
+			//'nggettext_extract',
 			'injector',
 			'wiredep',
 			'autoprefixer',
