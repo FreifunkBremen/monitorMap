@@ -1,0 +1,29 @@
+h1.ui.header {{'Node'|translate}}
+	.sub.header
+		i.icon.sitemap
+		| Global
+table.ui.table
+	tbody
+		tr
+			td(colspan='3')
+				b Nodes
+			td(colspan='3') {{g.nodes}}
+		tr
+			td
+				b Clients
+			td {{g.clients}}
+			td
+				i 2.4 Ghz
+			td {{g.clients24}}
+			td
+				i 5 Ghz
+			td {{g.clients50}}
+		tr
+			td(colspan='1')
+				b TX
+			td(colspan='2') {{g.tx_bytes|bytes}}
+			td(colspan='2')
+				b RX
+			td(colspan='1') {{g.rx_bytes|bytes}}
+h2 RRD
+#graph

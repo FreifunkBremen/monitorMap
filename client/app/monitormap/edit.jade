@@ -1,0 +1,29 @@
+h1.ui.header {{'Node'|translate}} {{obj.name}}
+	.sub.header MAC: {{obj.mac}}
+		a(ui-sref='monitormap.map({c:"{{obj.lat}}\:{{obj.lon}}\:16"})')
+			i.icon.marker
+form.ui.form(ng-submit='save()')
+	.field
+		label Name
+		input(ng-model='obj.name')
+	.field
+		label Mac
+		input(ng-model='obj.mac')
+	.field
+		label Owner
+		input(ng-model='obj.owner')
+	.field
+		label Channel 2.4
+		.fields.two
+			.field
+				input(ng-model='obj.channel_24',placeholder='Channel')
+			.field
+				input(ng-model='obj.channel_24_power',placeholder='Tx Power')
+	.field
+		label Channel 5.0
+		.fields.two
+			.field
+				input(ng-model='obj.channel_50',placeholder='Channel')
+			.field
+				input(ng-model='obj.channel_50_power',placeholder='Tx Power')
+	.ui.button(ng-class="{'loading':loading}") Save
