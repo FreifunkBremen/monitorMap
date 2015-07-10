@@ -1,2 +1,27 @@
 h1 {{item.name}}
-{{item.mac}}
+	a(ui-sref='monitormap.edit({id:item.id})')
+		i.icon.edit
+p {{item.mac}}
+table.ui.table.very.basic
+	thead
+		tr
+			th
+			th 2.4 Ghz
+			th 5.0 Ghz
+			th Sum
+	tbody
+	tr
+		td Clients
+		td {{item.client_24}}
+		td {{item.client_50}}
+		td {{item.client_24+item.client_50}}
+	tr
+		td Channel
+		td {{item.channel_24}}
+		td {{item.channel_50}}
+		td
+	tr
+		td Power
+		td {{item.channel_24_power}}
+		td {{item.channel_50_power}}
+		td

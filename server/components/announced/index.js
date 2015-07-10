@@ -16,9 +16,10 @@ module.exports = function(fn){
   prozess.on('exit', function(exit){
     if(!err && !exit){
       var a = [];
-      output = output.split(/{"node_id"/);
-      for(var i=1;i<output.length;i++)
-        a.push(JSON.parse('{"node_id"'+output[i]));
+
+      output = output.split("\n");
+      for(var i=0;i<(output.length-1);i++)
+        a.push(JSON.parse(output[i]));
       if(!fn)
         return a;
       fn(a);

@@ -7,7 +7,9 @@ var _init = function(){
   clearInterval(intervalObj);
 
   var loop = function(){
-		models.Node.findAll({}).then(function(nodes){
+		models.Node.findAll({include:[
+			{model:models.Node,as:'parent'}
+		]}).then(function(nodes){
 		for(var j in nodes){
 			var cur_time = (new Date()).getTime();
 			if((new Date(nodes[j].datetime)).getTime() < (cur_time-1000*5) && nodes[j].status)

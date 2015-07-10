@@ -7,7 +7,7 @@ module.exports = {
 
 	scanner:{
 		ipv6_prefix:'fe80::',
-		ipv6_interface:'et0.2',
+		ipv6_interface:'et0',
 		ipv6_pingall:'ff02::1',
 		//timer_ping:10, //sec
 		//timer_count:3,
@@ -16,8 +16,8 @@ module.exports = {
 		//socket_alfred:"/tmp/alfred",
 		latitude:53.0698,
 		longitude:8.8154,
-		default_channel_24:11,
-		default_channel_50:140,
+		channels_24:[1,5,9,13],
+		channels_50:[36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140],
 		default_channel_50_power:10,
 		default_channel_24_power:10,
 	},

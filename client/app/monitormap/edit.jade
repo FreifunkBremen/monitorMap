@@ -13,17 +13,19 @@ form.ui.form(ng-submit='save()')
 		label Owner
 		input(ng-model='obj.owner')
 	.field
+		label Parent
+		select(ng-model='obj.parent_id',placeholder='Parent',ng-options='opt.id as opt.name for opt in nodes_list')
+	.field
 		label Channel 2.4
 		.fields.two
-			.field
-				input(ng-model='obj.channel_24',placeholder='Channel')
+			select(ng-model='obj.channel_24',placeholder='Channel',ng-options='opt for opt in channels_24')
 			.field
 				input(ng-model='obj.channel_24_power',placeholder='Tx Power')
 	.field
 		label Channel 5.0
 		.fields.two
 			.field
-				input(ng-model='obj.channel_50',placeholder='Channel')
+				select(ng-model='obj.channel_50',placeholder='Channel',ng-options='opt for opt in channels_50')
 			.field
 				input(ng-model='obj.channel_50_power',placeholder='Tx Power')
-	.ui.button(ng-class="{'loading':loading}") Save
+	.ui.button(ng-class="{'loading':loading}",ng-click="save()") Save

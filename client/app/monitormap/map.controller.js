@@ -2,7 +2,7 @@
 
 angular.module('monitormapApp')
 	.controller('MapMonitormapCtrl',function ($scope,$location,nodes) {
-
+		var move = false;
 		$scope.obj={};
 
 		$scope.center = {
@@ -26,15 +26,11 @@ angular.module('monitormapApp')
 			iconSize:[16,16],
 			iconAnchor: [8, 8],
 		}
-		/*
-		setTimeout(function(){
-			angular.extend($scope,transformMap());
-		},100);*/
 		$scope.$on("centerUrlHash", function(event, centerHash) {
 			$location.search({ c: centerHash });
 		});
-		function transformNode(item){
-			return {
+		function transformNode(item,old_pos){
+			var tmp = {
 				lat:item.lat,
 				lng:item.lon,
 				getMessageScope: function () { $scope.item = item; return $scope; },
@@ -50,11 +46,12 @@ angular.module('monitormapApp')
 				compileMessage: true,
 				obj:item
 			};
+			return tmp;
 		}
     function transformMap(){
       var output={markers:{},paths:{}};
       nodes.list.forEach(function(item){
-				if(item.lat && item.lon && item.status){
+				if(item.lat && item.lon){
 	        output.markers[item.id] = transformNode(item);
 					if(item.parent_id)
 						output.paths[item.id]={
@@ -70,14 +67,24 @@ angular.module('monitormapApp')
       });
       return output;
     }
-
-		$scope.$on('factory:nodes:list:change',function(event,newValue){
+		nodes.listRefresh(function(){
 			angular.extend($scope, transformMap());
-			console.log($scope);
 		});
 
+		$scope.$on('factory:nodes:list:change',function(event,r){
+			if(!move && r.new.id!=move.id)
+				$scope.markers[r.new.id] = transformNode(r.new);
+		});
+		$scope.$on('leafletDirectiveMarker.drag', function(event,args){
+			move = args.model.obj.id;
+		});
     $scope.$on('leafletDirectiveMarker.dragend', function(event,args){
-			nodes.move(args.model.obj,{lat:args.model.lat,lon:args.model.lng})
-			//angular.extend($scope, {markers[args.model.obj.id]:transformNode(nodes.list[args.model.obj.id])});
+			move = args.model.obj.id;
+			nodes.move(args.model.obj,{lat:args.model.lat,lon:args.model.lng},function(){
+				nodes.listRefresh(function(){
+					angular.extend($scope, transformMap());
+					move = false;
+				});
+			})
     });
 	});

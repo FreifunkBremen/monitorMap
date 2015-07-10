@@ -2,32 +2,51 @@
 
 angular.module('monitormapApp')
 	.controller('ListMonitormapCtrl',function ($scope,nodes) {
-		$scope.list = nodes.list;
+		$scope.sort = {field:'datetime',asc:true}
+		$scope.sortC = function(a){
+			if(a == $scope.sort.field)
+				$scope.sort.asc = !$scope.sort.asc;
+			else{
+				$scope.sort.field = a;
+			}
+		}
+		$scope.list = [];
+		nodes.listRefresh(function(){
+			$scope.list = nodes.getArray();
+		});
 
 		$scope.getUpTotal = function(){
 	    var total = 0,tmp;
-	    for(var i = 0; i < $scope.get($scope.list).length; i++){
-				tmp = $scope.get($scope.list)[i];
-				if(tmp.status)
-	        total++;
-	    }
+			if($scope.list)
+		    for(var i = 0; i < $scope.list.length; i++){
+					tmp = $scope.list[i];
+					if(tmp.status)
+		        total++;
+		    }
 	    return total;
 		}
 		$scope.getClientsTotal = function(){
 	    var total = 0,tmp;
-	    for(var i = 0; i < $scope.get($scope.list).length; i++){
-				tmp = $scope.get($scope.list)[i];
-				if(typeof tmp.client_50 !== 'undefined')
-        	total +=tmp.client_50;
-				if(typeof tmp.client_24 !== 'undefined')
-        	total +=tmp.client_24;
-	    }
+			if($scope.list)
+		    for(var i = 0; i < $scope.list.length; i++){
+					tmp = $scope.list;
+					if(typeof tmp.client_50 !== 'undefined')
+	        	total +=tmp.client_50;
+					if(typeof tmp.client_24 !== 'undefined')
+	        	total +=tmp.client_24;
+		    }
 	    return total;
 		}
-		$scope.get = function(a){
-			var o =[];
-			for(var i in a)
-				o.push(a[i]);
-			return o;
-		}
+		$scope.$on('factory:nodes:list:change',function(err,r){
+			if(!r.old){
+				$scope.list.push(r.new);
+			}else{
+				for(var i in $scope.list){
+					if($scope.list[i].id==r.new.id){
+						$scope.list[i] = r.new;
+						break;
+					}
+				}
+			}
+		});
 	});

@@ -10,9 +10,21 @@ angular.module('monitormapApp')
 			o.list[n.id] =n;
 		});
   });
-  o.move = function(obj,loc){
+	o.listRefresh = function(fn){
+		socket.emit('monitormap:node:list',function(result) {
+			result.list.forEach(function(n){
+				o.list[n.id] =n;
+				if(fn)
+					fn();
+			});
+	  });
+	}
+	o.listRefresh();
+  o.move = function(obj,loc,fn){
     socket.emit('monitormap:node:move',obj,loc,function(result) {
       o.list[result.node.id] = result.node;
+			if(fn)
+				fn();
     });
   }
   o.detail = function(id,fn){
@@ -22,23 +34,26 @@ angular.module('monitormapApp')
 				fn();
 		});
   }
-	o.save = function(ob,fn){
-		console.log("save"+obj);
+	o.save = function(obj,fn){
 		socket.emit('monitormap:node:save',obj,function(result) {
-			console.log("save"+obj);
       o.list[obj.id] = result.node;
 			if(fn)
 				fn();
 		});
   }
+
+	o.getArray = function(){
+			var a =[];
+			for(var i in o.list)
+				a.push(o.list[i]);
+			return a;
+		}
 	socket.on('monitormap:node:change', function (obj) {
-		console.log(obj);
+		$rootScope.$broadcast('factory:nodes:list:change', {
+			new:obj,
+			old:o.list[obj.id]
+			});
 		o.list[obj.id] = obj;
   });
-	$rootScope.$watch(function () {
-        return o.list;
-    }, function (newValue, oldValue, scope) {
-			$rootScope.$broadcast('factory:nodes:list:change', newValue);
-    }, true);
   return o;
 }]);
