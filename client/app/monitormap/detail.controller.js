@@ -2,49 +2,94 @@
 
 angular.module('monitormapApp')
 	.controller('DetailMonitormapCtrl',function ($scope,$stateParams,nodes) {
-		$scope.client = {series:['Channel 5.0','Channel 2.4','Sum'],labels:{},data:{},legend:{}}
-		$scope.online = {series:['Online'],labels:{},data:{},legend:{}}
-		$scope.bytes = {series:['TX','RX','SUM'],labels:{},data:{},legend:{}}
-		$scope.packets = {series:['TX','RX','SUM'],labels:{},data:{},legend:{}}
+		$scope.$on('factory:nodes:list:change',function(event,newValue){
+			load();
+		});
 
-		var depNode = function(){
-			if(nodes.list.length>0){
-				angular.extend($scope, {obj:nodes.list[$stateParams.id]});
-				//$scope.obj = nodes.list[$stateParams.id];
-				if($scope.obj.statistics){
-					$scope.client.labels = [];
-					$scope.client.data = [[],[],[]];
-					$scope.online.labels = [];
-					$scope.online.data = [[]];
-					$scope.bytes.labels = [];
-					$scope.bytes.data = [[],[],[]];
-					$scope.packets.labels = [];
-					$scope.packets.data = [[],[],[]];
-					$scope.obj.statistics.forEach(function(item){
-						$scope.client.labels.push(item.datetime);
-						$scope.client.data[0].push(item.client_50);
-						$scope.client.data[1].push(item.client_24);
-						$scope.client.data[2].push(item.client_50+item.client_24);
 
-						$scope.online.labels.push(item.datetime);
-						$scope.online.data[0].push((item.status)?1:0);
 
-						$scope.bytes.labels.push(item.datetime);
-						$scope.bytes.data[0].push(item.traffic_tx_bytes);
-						$scope.bytes.data[1].push(item.traffic_rx_bytes);
-						$scope.bytes.data[2].push(item.traffic_tx_bytes+item.traffic_rx_bytes);
 
-						$scope.packets.labels.push(item.datetime);
-						$scope.packets.data[0].push(item.traffic_tx_packets);
-						$scope.packets.data[1].push(item.traffic_rx_packets);
-						$scope.packets.data[2].push(item.traffic_tx_packets+item.traffic_rx_packets);
-					});
-				}
+
+		var load = function(){
+			var a =false;
+			if(nodes.list[$stateParams.id]){
+				if($scope.obj)
+					a = true
+				$scope.obj = nodes.list[$stateParams.id]
+				$scope.node_id = $scope.obj.mac.split(':').join('');
+				if(a)
+					try {
+							FetchBinaryURLAsync("/data/"+$scope.node_id+".rrd", rrd_handler);
+					} catch (err) {
+							//alert("Failed loading rrd\n" + err);
+					}
 			}
 		}
-		nodes.detail($stateParams.id);
-		depNode();
-		$scope.$on('factory:nodes:list:change',function(event,newValue){
-			depNode();
-		});
+		load();
+		var rrd_data = undefined;
+
+    function rrd_handler(bf) {
+        var i_rrd_data = undefined;
+        try {
+            var i_rrd_data = new RRDFile(bf);
+        } catch (err) {
+            //alert("File is not a valid RRD archive!");
+        }
+        if (i_rrd_data != undefined) {
+            rrd_data = i_rrd_data;
+            render_graph()
+        }
+    }
+    function render_graph() {
+        var f = new rrdFlot("clientGraph", rrd_data, {
+            // graph_options
+            legend: { noColumns: 6 },
+						lines: { show:true },
+            //yaxes:  [ {}, { show: true, min: 0.1, max: 0.15 } ],
+						yaxis: { autoscaleMargin: 0.20},
+						tooltip: true,
+						tooltipOpts: { content: "<h4>%s</h4> Value: %y.3 - %x" },
+        }, {
+            // ds_graph_options
+            'load': {
+                label: 'Load',
+                color: "#00ff00"
+            },
+            'clients50': {
+                label: 'Clients 5.0 Ghz',
+                color: "#0000ff"
+            },
+            'clients24': {
+                label: 'Clients 2.4 Ghz',
+                color: "#ff0000"
+            },
+            'upstate': {
+                label: 'Uptime',
+                color: "#ffcccc",
+                yaxis: 2,
+                lines: { fill: true }
+            }
+        }, {
+            // rrdflot_defaults
+            num_cb_rows: 9,
+            use_element_buttons: true,
+            multi_ds: false,
+            multi_rra: true,
+            use_rra: false,
+            rra: 0,
+            use_checked_DSs: true,
+            checked_DSs: ["load", "clients50", "clients24", "upstate"],
+            use_windows: true,
+            window_min: 1436400000,
+            window_max: 1437350400,
+            graph_width: "700px",
+            graph_height: "300px",
+            scale_width: "350px",
+            scale_height: "200px",
+            timezone: "+2"
+        });
+        $("#clientGraph_time_sel").val("+2");
+        f.callback_timezone_changed();
+        f.scale.clearSelection();
+			}
 	});

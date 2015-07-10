@@ -1,7 +1,7 @@
 var spawn = require('child_process').spawn;
 var config = require('../config/environment');
 
-module.exports.getJSON = function(fn){
+module.exports = function(fn){
     prozess = spawn('alfred-json', ["-z","-s",config.scanner.socket_alfred,"-r","159"]);
     prozess.stdout.setEncoding('utf8');
     prozess.stderr.setEncoding('utf8');

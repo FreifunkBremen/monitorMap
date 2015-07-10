@@ -18,30 +18,22 @@ angular.module('monitormapApp')
   o.detail = function(id,fn){
 		socket.emit('monitormap:node:detail',{id:id},function(result) {
       o.list[id] = result.node;
-			if(!fn)
+			if(fn)
 				fn();
 		});
   }
 	o.save = function(ob,fn){
+		console.log("save"+obj);
 		socket.emit('monitormap:node:save',obj,function(result) {
+			console.log("save"+obj);
       o.list[obj.id] = result.node;
-			if(!fn)
+			if(fn)
 				fn();
 		});
   }
 	socket.on('monitormap:node:change', function (obj) {
-		o.list[obj.id] = obj;
-  });
-	socket.on('monitormap:node:status:change', function (obj) {
 		console.log(obj);
 		o.list[obj.id] = obj;
-		/*
-		console.log(obj.statistics[item.statistics.length-1]);
-		if(obj.statistics[item.statistics.length-1] && o.list[obj.id]){
-			o.list[obj.id].statistics[item.statistics.length-1] = obj.statistics[item.statistics.length-1];
-		}else{
-			console.log('ERROR fetch status: '+obj.name);
-		}*/
   });
 	$rootScope.$watch(function () {
         return o.list;

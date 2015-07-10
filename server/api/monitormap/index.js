@@ -2,11 +2,11 @@ var models = require('../../components/models');
 var _getId = function(id,fn){
 	models.Node.findAll({where:id,
 		include:[
-			{model:models.Node_Statistic,as:'statistics'},
 			{model:models.Node,as:'parent'}
 		],
 	}).then(function(node){
-			fn(node[0]);
+			var tmpNode = node[0].dataValues;
+			fn(tmpNode);
 	});
 }
 var _detail = function(id,fn){
@@ -21,22 +21,10 @@ var _detail = function(id,fn){
 var _list = function(fn){
 	models.Node.findAll({
 		include:[
-			{model:models.Node_Statistic,as:'statistics'},
 			{model:models.Node,as:'parent'}
 		],
 	}).then(function(node){
-
 		if(node.length>0){
-			for(var i in node){
-				if(node[i].statistics.length>0){
-					node[i].laststatistic = {datetime:0};
-					node[i].statistics.forEach(function(item){
-						if(node[i].laststatistic.datetime<item.datetime)
-							node[i].laststatistic = item;
-					});
-					node[i].dataValues.laststatistic = node[i].laststatistic;
-				}
-			}
 			fn({s:true,list:node});
 		}
 	});
@@ -68,6 +56,7 @@ module.exports = function(socket) {
 		models.Node.update({
 			name:obj.name,
 			owner:obj.owner,
+			mon:obj.mon,
 			mac:obj.mac,
 			parent_id:obj.parent_id,
 			lat:obj.lat,

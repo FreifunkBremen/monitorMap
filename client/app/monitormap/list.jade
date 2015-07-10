@@ -8,18 +8,20 @@ table.ui.table
 			th Name
 			th MAC
 			th Status
+			th Last Seen
 			th Client
 			th Map
 			th
 	tbody
-		tr(ng-repeat='item in list')
-			td
+		tr(ng-repeat='item in get(list)')
+			td {{key}}
 				a(ui-sref='monitormap.detail({id:item.id})') {{item.name}}
 			td {{item.mac}}
 			td
-				i.icon.check.circle(ng-if='item.statistics[item.statistics.length-1].status',style="color:green")
-				i.icon.remove.circle(ng-if='!item.statistics[item.statistics.length-1].status',style="color:red")
-			td {{item.statistics[item.statistics.length-1].client_50+item.statistics[item.statistics.length-1].client_24}}
+				i.icon.check.circle(ng-if='item.status',style="color:green")
+				i.icon.remove.circle(ng-if='!item.status',style="color:red")
+			td {{item.datetime|relativeDate:true}}
+			td {{item.client_50+item.client_24}}
 			td
 				a(ui-sref='monitormap.map({c:"{{item.lat}}\:{{item.lon}}\:16"})')
 					i.icon.marker
@@ -29,9 +31,9 @@ table.ui.table
 	tfoot
 		tr
 			th(colspan='2')
-				| Summe {{list.length}}
+				| Summe {{ get(list).length}}
 			th(colspan='2')
 				| Up {{getUpTotal()}}
-				| Down {{list.length - getUpTotal()}}
-			th(colspan='2')
+				| Down {{ get(list).length - getUpTotal()}}
+			th(colspan='3')
 				| Clients {{getClientsTotal()}}

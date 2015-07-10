@@ -8,7 +8,8 @@ angular.module('monitormapApp', [
 	'gettext',
 	'btford.socket-io',
 	'chart.js',
-	'leaflet-directive'
+	'leaflet-directive',
+	'relativeDate'
 ])
 	.config(['$urlRouterProvider','$locationProvider',function ($urlRouterProvider, $locationProvider) {
 	$urlRouterProvider.otherwise('/');
@@ -23,5 +24,5 @@ angular.module('monitormapApp', [
 	})
 	.run(function(gettextCatalog,socket){
 		gettextCatalog.currentLanguage = 'de';
-		gettextCatalog.debug = true;
+		//gettextCatalog.debug = true;
 	})

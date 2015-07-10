@@ -319,7 +319,7 @@ module.exports = function (grunt) {
 		ngtemplates: {
 			options: {
 				// This should be the name of your apps angular module
-				module: 'orbitApp',
+				module: 'monitormapApp',
 				htmlmin: {
 					collapseBooleanAttributes: true,
 					collapseWhitespace: true,
@@ -567,14 +567,14 @@ module.exports = function (grunt) {
 			}
 		},
 		git_deploy: {
-			orbit: {
+			github: {
 				options: {
-					url: 'gitlab@dev.fireorbit.de:geno/orbit.git',
-					branch:'dist'
+					url: 'git@github.com:genofire/monitorMap.git',
+					branch:'gh-pages'
 				},
 				src: 'dist'
 			},
-		},	
+		},
 	});
 
 	// Used for delaying livereload until after server has restarted
@@ -653,7 +653,7 @@ module.exports = function (grunt) {
 		'uglify',
 		'rev',
 		'usemin',
-		'git_deploy:orbit'
+		'git_deploy:github'
 	]);
 
 	grunt.registerTask('default', [

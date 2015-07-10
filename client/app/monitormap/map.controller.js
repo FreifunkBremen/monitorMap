@@ -26,9 +26,10 @@ angular.module('monitormapApp')
 			iconSize:[16,16],
 			iconAnchor: [8, 8],
 		}
+		/*
 		setTimeout(function(){
 			angular.extend($scope,transformMap());
-		},100);
+		},100);*/
 		$scope.$on("centerUrlHash", function(event, centerHash) {
 			$location.search({ c: centerHash });
 		});
@@ -44,7 +45,7 @@ angular.module('monitormapApp')
 							noHide: true
 					}
 				},
-				icon:(item.statistics[item.statistics.length-1].status)?onlineIcon:offlineIcon,
+				icon:(item.status)?onlineIcon:offlineIcon,
 				draggable: true,
 				compileMessage: true,
 				obj:item
@@ -53,11 +54,11 @@ angular.module('monitormapApp')
     function transformMap(){
       var output={markers:{},paths:{}};
       nodes.list.forEach(function(item){
-				if(item.lat && item.lon && item.statistics[item.statistics.length-1].status){
+				if(item.lat && item.lon && item.status){
 	        output.markers[item.id] = transformNode(item);
 					if(item.parent_id)
 						output.paths[item.id]={
-							color: (item.statistics[item.statistics.length-1].status && nodes.list[item.parent_id].statistics[item.statistics.length-1].status)?'green':'red',
+							color: (item.status && nodes.list[item.parent_id].status)?'green':'red',
 	            weight: 2,
 	            latlngs: [
 								{lat:nodes.list[item.id].lat,lng:nodes.list[item.id].lon},
