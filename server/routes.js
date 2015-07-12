@@ -6,16 +6,28 @@
 
 var errors = require('./components/errors');
 var ansible = require('./components/ansible');
-var alfred = require('./components/alfred');
+var meshviewer = require('./components/meshviewer');
 
 module.exports = function(app) {
-	/*
-	app.route('/json/alfred')
+
+	app.route('/json/meshviewer/nodes.json')
 		.get(function(req, res) {
-			alfred(function(data){
+			meshviewer.getNodes(function(data){
 							res.jsonp(data);
 			});
-		});*/
+		});
+	app.route('/json/meshviewer/graph.json')
+		.get(function(req, res) {
+			meshviewer.getNodes(function(data){
+							res.jsonp(data);
+			});
+		});
+	app.route('/json/meshviewer/node.json')
+		.get(function(req, res) {
+			meshviewer.getNodes(function(data){
+							res.jsonp(data);
+			});
+		});
 	app.route('/json/ansible')
 		.get(function(req, res) {
 			ansible.getJSON(function(data){

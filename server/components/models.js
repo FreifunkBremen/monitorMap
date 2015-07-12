@@ -28,12 +28,22 @@ var config = require('../config/environment').database,
 		traffic_tx_packets:{type: Sequelize.INTEGER},
 		traffic_rx_bytes:{type: Sequelize.INTEGER},
 		traffic_rx_packets:{type: Sequelize.INTEGER},
+
+		traffic_tx24_bytes:{type: Sequelize.INTEGER},
+		traffic_tx24_packets:{type: Sequelize.INTEGER},
+		traffic_rx24_bytes:{type: Sequelize.INTEGER},
+		traffic_rx24_packets:{type: Sequelize.INTEGER},
+
+		traffic_tx50_bytes:{type: Sequelize.INTEGER},
+		traffic_tx50_packets:{type: Sequelize.INTEGER},
+		traffic_rx50_bytes:{type: Sequelize.INTEGER},
+		traffic_rx50_packets:{type: Sequelize.INTEGER},
 	},{tableName:'node'});
 
 	Node.hasMany(Node,{foreignKey:'parent_id',as:'childrens'});
 	Node.belongsTo(Node,{foreignKey:'parent_id',as:'parent'});
 
-	DB.sync({ force: true });
+	DB.sync({ force: false });
 	/*
 	.then(function(err) {
 		if (!!err) {

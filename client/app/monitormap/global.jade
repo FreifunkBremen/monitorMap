@@ -25,5 +25,19 @@ table.ui.table
 			td(colspan='2')
 				b RX
 			td(colspan='1') {{g.rx_bytes|bytes}}
+		tr
+			td(colspan='1')
+				b TX 2.4 Ghz
+			td(colspan='2') {{g.tx24_bytes|bytes}}
+			td(colspan='2')
+				b RX 2.4 Ghz
+			td(colspan='1') {{g.rx24_bytes|bytes}}
+		tr
+			td(colspan='1')
+				b TX 5 Ghz
+			td(colspan='2') {{g.tx50_bytes|bytes}}
+			td(colspan='2')
+				b RX 5 Ghz
+			td(colspan='1') {{g.rx50_bytes|bytes}}
 h2 RRD
 #graph

@@ -14,17 +14,29 @@ var config = {
 				'DS:clients50:GAUGE:120:0:NaN',
 				'DS:load:GAUGE:120:0:NaN',
 				'DS:uptime:DERIVE:120:0:NaN',
+
 				'DS:rx_bytes:DERIVE:120:0:NaN',
 				'DS:rx_packets:DERIVE:120:0:NaN',
 				'DS:tx_bytes:DERIVE:120:0:NaN',
 				'DS:tx_packets:DERIVE:120:0:NaN',
+
+				'DS:rx24_bytes:DERIVE:120:0:NaN',
+				'DS:rx24_packets:DERIVE:120:0:NaN',
+				'DS:tx24_bytes:DERIVE:120:0:NaN',
+				'DS:tx24_packets:DERIVE:120:0:NaN',
+
+				'DS:rx50_bytes:DERIVE:120:0:NaN',
+				'DS:rx50_packets:DERIVE:120:0:NaN',
+				'DS:tx50_bytes:DERIVE:120:0:NaN',
+				'DS:tx50_packets:DERIVE:120:0:NaN',
+
 				'DS:mem_free:DERIVE:120:0:NaN',
 				'DS:mem_usage:DERIVE:120:0:NaN',
 				'DS:mem_total:DERIVE:120:0:NaN',
 				'DS:mem_cached:DERIVE:120:0:NaN',
 				'DS:mem_buffers:DERIVE:120:0:NaN',
 			],
-		rra:['RRA:AVERAGE:0.5:1:1440','RRA:MAX:0.5:1:1440','RRA:AVERAGE:0.5:5:2880','RRA:MAX:0.5:5:2880']
+		rra:['RRA:MIN:0.5:1:1440','RRA:AVERAGE:0.5:1:1440','RRA:MAX:0.5:1:1440','RRA:MIN:0.5:5:2880','RRA:AVERAGE:0.5:5:2880','RRA:MAX:0.5:5:2880']
 	},
 	global:{
 		ds:[
@@ -36,15 +48,27 @@ var config = {
 				'DS:rx_packets:DERIVE:120:0:NaN',
 				'DS:tx_bytes:DERIVE:120:0:NaN',
 				'DS:tx_packets:DERIVE:120:0:NaN',
+
+				'DS:rx24_bytes:DERIVE:120:0:NaN',
+				'DS:rx24_packets:DERIVE:120:0:NaN',
+				'DS:tx24_bytes:DERIVE:120:0:NaN',
+				'DS:tx24_packets:DERIVE:120:0:NaN',
+
+				'DS:rx50_bytes:DERIVE:120:0:NaN',
+				'DS:rx50_packets:DERIVE:120:0:NaN',
+				'DS:tx50_bytes:DERIVE:120:0:NaN',
+				'DS:tx50_packets:DERIVE:120:0:NaN',
+
 				'DS:mem_total:DERIVE:120:0:NaN'
 			],
-		rra:['RRA:AVERAGE:0.5:1:1440','RRA:MAX:0.5:1:1440','RRA:AVERAGE:0.5:5:2880',,'RRA:MAX:0.5:5:2880']
+		rra:['RRA:MIN:0.5:1:1440','RRA:AVERAGE:0.5:1:1440','RRA:MAX:0.5:1:1440','RRA:MIN:0.5:5:2880','RRA:AVERAGE:0.5:5:2880','RRA:MAX:0.5:5:2880']
 	}
 }
 var _create = function(){
 	/**
 	 * Global
 	 */
+
 	exists = false;
 	for(var i in rrdList){
 		if(rrdList[i].name == 'global'){
@@ -123,7 +147,7 @@ var _updateGlobal = function(values,fn){
 				});
 		})
 	}
-	//TODO
+
 	exists.rrd.update(exists.path,'N',values,fn);
 }
 
@@ -153,7 +177,6 @@ var _updateNode = function(values,fn){
 				});
 		});
 	}
-	//TODO
 	exists.rrd.update(exists.path,'N',values.values,fn);
 }
 _create();

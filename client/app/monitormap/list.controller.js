@@ -27,14 +27,15 @@ angular.module('monitormapApp')
 		}
 		$scope.getClientsTotal = function(){
 	    var total = 0,tmp;
-			if($scope.list)
+			if($scope.list){
 		    for(var i = 0; i < $scope.list.length; i++){
-					tmp = $scope.list;
+					tmp = $scope.list[i];
 					if(typeof tmp.client_50 !== 'undefined')
 	        	total +=tmp.client_50;
 					if(typeof tmp.client_24 !== 'undefined')
 	        	total +=tmp.client_24;
 		    }
+			}
 	    return total;
 		}
 		$scope.$on('factory:nodes:list:change',function(err,r){
