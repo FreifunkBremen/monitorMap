@@ -16,9 +16,7 @@ dist
 .npm/
 .profile
 .psql_history
-app.js
 npm-debug.log
-public/data/
 
 
 *~

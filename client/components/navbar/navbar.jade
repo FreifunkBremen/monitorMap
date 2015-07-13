@@ -12,3 +12,8 @@
 	a.item(ui-sref='monitormap.tools',ui-sref-active='active')
 		i.icon.cubes
 		| {{'Tools'|translate}}
+	.right.menu
+		.ui.right.aligned.icon
+			.ui.transparent.icon.input
+				input(type='password',ng-model='passphrase',ng-change='changePassphrase(passphrase)')
+				i.icon.lock

@@ -1,7 +1,6 @@
 var models = require('../../components/models');
 var ipv6calc = require('ipv6calc');
-
-
+var config = require('../../config/environment');
 
 
 
@@ -39,7 +38,11 @@ function dec2hexlen(val,minlen){
 }
 
 
-
+function correctIp(mac){
+  var mac=mac.replace(/:/g,"-").split("-");
+  mac[5] = dec2hex(hex2dec(mac[5])-2);
+  return mac.join(':');
+}
 
 
 
@@ -56,7 +59,7 @@ var _getId = function(id,fn){
 var _detail = function(id,fn){
 	_getId(id,function(a){
 		if(a){
-			fn({s:true,node:a,ipv6:ipv6calc.toIPv6(config.scanner.ipv6_prefix,a.mac)});
+			fn({s:true,node:a,ipv6:ipv6calc.toIPv6(config.scanner.ipv6_prefix,correctIp(a.mac))});
 		}else{
 			fn({s:false});
 		}
@@ -82,66 +85,79 @@ module.exports = function(socket) {
 	socket.on('monitormap:node:list',_list);
 
 
-	socket.on('monitormap:node:move',function(obj,loc,fn){
-		models.Node.update({lat: loc.lat,lon:loc.lon}, {where: {id: obj.id}}).then(function(node){
-			if(node){
-				_getId(obj.id,function(dbnode){
-					socket.broadcast.emit('monitormap:node:change',dbnode);
-					fn({s:true,node:dbnode});
-				});
-			}else{
-				fn({s:false,node:obj})
-			}
-		});
+	socket.on('monitormap:node:move',function(obj,loc,passphrase,fn){
+    if(passphrase==config.passphrase){
+  		models.Node.update({lat: loc.lat,lon:loc.lon}, {where: {id: obj.id}}).then(function(node){
+  			if(node){
+  				_getId(obj.id,function(dbnode){
+  					socket.broadcast.emit('monitormap:node:change',dbnode);
+  					fn({s:true,node:dbnode});
+  				});
+  			}else{
+  				fn({s:false,node:obj})
+  			}
+  		});
+    }else{
+      fn({s:false,node:obj})
+    }
 	});
 
 
-	socket.on('monitormap:node:save',function(obj,fn){
-		models.Node.update({
-			name:obj.name,
-			owner:obj.owner,
-			mon:obj.mon,
-			mac:obj.mac,
-			parent_id:obj.parent_id,
-			lat:obj.lat,
-			lon:obj.lon,
-			channel_24:obj.channel_24,
-			channel_50:obj.channel_50,
-			channel_24_power:obj.channel_24_power,
-			channel_50_power:obj.channel_50_power
-		}, {where: {id: obj.id}}).then(function(node){
-			if(node){
-				_getId(obj.id,function(dbnode){
-					socket.broadcast.emit('monitormap:node:change',dbnode);
-					fn({s:true,node:dbnode});
-				});
-			}else{
-				fn({s:false,node:node});
-			}
-		});
+	socket.on('monitormap:node:save',function(obj,passphrase,fn){
+    if(passphrase==config.passphrase){
+              console.log(passphrase);
+  		models.Node.update({
+  			name:obj.name,
+  			owner:obj.owner,
+  			mon:obj.mon,
+  			mac:obj.mac,
+  			parent_id:obj.parent_id,
+  			lat:obj.lat,
+  			lon:obj.lon,
+  			channel_24:obj.channel_24,
+  			channel_50:obj.channel_50,
+  			channel_24_power:obj.channel_24_power,
+  			channel_50_power:obj.channel_50_power
+  		}, {where: {id: obj.id}}).then(function(node){
+  			if(node){
+  				_getId(obj.id,function(dbnode){
+  					socket.broadcast.emit('monitormap:node:change',dbnode);
+  					fn({s:true,node:dbnode});
+  				});
+  			}else{
+  				fn({s:false,node:node});
+  			}
+  		});
+    }else{
+      fn({s:false});
+    }
 	});
 
 
 	socket.on('monitormap:node:add',function(obj,fn){
-		models.Node.create({
-			name:obj.name,
-			owner:obj.owner,
-			mac:obj.mac,
-			parent_id:obj.parent_id,
-			lat:obj.lat,
-			lon:obj.lon,
-			channel_24:obj.channel_24,
-			channel_50:obj.channel_50
-		}).then(function(node){
-			if(node){
-				_getId(node,function(dbnode){
-					socket.broadcast.emit('monitormap:node:change',dbnode);
-					fn({s:true,node:dbnode});
-				});
-			}else{
-				fn({s:false,node:node});
-			}
-		});
+    if(passphrase==config.passphrase){
+  		models.Node.create({
+  			name:obj.name,
+  			owner:obj.owner,
+  			mac:obj.mac,
+  			parent_id:obj.parent_id,
+  			lat:obj.lat,
+  			lon:obj.lon,
+  			channel_24:obj.channel_24,
+  			channel_50:obj.channel_50
+  		}).then(function(node){
+  			if(node){
+  				_getId(node,function(dbnode){
+  					socket.broadcast.emit('monitormap:node:change',dbnode);
+  					fn({s:true,node:dbnode});
+  				});
+  			}else{
+  				fn({s:false,node:node});
+  			}
+  		});
+    }else{
+      fn({s:false});
+    }
 	});
 
 

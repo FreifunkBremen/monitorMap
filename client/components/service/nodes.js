@@ -21,8 +21,10 @@ angular.module('monitormapApp')
 	}
 	o.listRefresh();
   o.move = function(obj,loc,fn){
-    socket.emit('monitormap:node:move',obj,loc,function(result) {
-      o.list[result.node.id] = result.node;
+    socket.emit('monitormap:node:move',obj,loc,$rootScope.passphrase,function(result) {
+			if(result.s){
+      	o.list[result.node.id] = result.node;
+			}
 			if(fn)
 				fn();
     });
@@ -35,8 +37,10 @@ angular.module('monitormapApp')
 		});
   }
 	o.save = function(obj,fn){
-		socket.emit('monitormap:node:save',obj,function(result) {
-      o.list[obj.id] = result.node;
+		socket.emit('monitormap:node:save',obj,$rootScope.passphrase,function(result) {
+			if(result.s){
+	      o.list[obj.id] = result.node;
+			}
 			if(fn)
 				fn();
 		});

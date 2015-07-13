@@ -16,6 +16,7 @@ angular.module('monitormapApp')
 		$scope.save = function(){
 			$scope.loading = true;
 			nodes.save($scope.obj,function(r){
+				$scope.obj = nodes.list[$stateParams.id];
 				$scope.loading = false;
 			});
 		}

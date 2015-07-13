@@ -49,7 +49,7 @@ angular.module('monitormapApp')
 	                color: "#00733C",
 	                yaxis: 2,
 	                lines: { fill: true }
-	            }
+	            },
 	            'clients50': {
 	                label: 'Clients 5.0 Ghz',
 	                color: "#218555"
@@ -83,7 +83,7 @@ angular.module('monitormapApp')
 	            use_rra: false,
 	            rra: 0,
 	            use_checked_DSs: true,
-	            checked_DSs: ["load",'clients',"clients50", "clients24",'mem_total','mem_usage' "upstate"],
+	            checked_DSs: ["load","clients","clients50", "clients24","mem_total","mem_usage", "upstate"],
 	            use_windows: true,
 	            window_min: 1436400000,
 	            window_max: 1437350400,
