@@ -4,7 +4,7 @@ var config = require('../../config/environment');
 module.exports = function(fn,request){
   if(!request)
     request = "statistics";
-  prozess = spawn(__dirname+'/a.out', ["-r", request, "-t",3,"-p",1001,"-d","ff02:0:0:0:0:0:2:1001","-i",config.scanner.ipv6_interface]);
+  prozess = spawn(__dirname+'/a.out', ["-r", request, "-t",(config.scanner.timer_announce-2),"-p",1001,"-d","ff02:0:0:0:0:0:2:1001","-i",config.scanner.ipv6_interface]);
   prozess.stdout.setEncoding('utf8');
   prozess.stderr.setEncoding('utf8');
   var output ='';
