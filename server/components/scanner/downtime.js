@@ -18,7 +18,7 @@ var _init = function(){
 			  }).then(function(){
 			  //models.Node.update(tmp, {where: {id: nodes[j].id}}).then(function(node){
 			    io.emit('monitormap:node:change',nodes[j]);
-					console.log("DOWN: "+nodes[j].mac);
+					//console.log("DOWN: "+nodes[j].mac);
 			  });
 			}
 		});

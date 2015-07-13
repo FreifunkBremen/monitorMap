@@ -115,7 +115,6 @@ var _init = function(){
                     nodes[j].updateAttributes(tmp).then(function(){
                     //models.Node.update(tmp, {where: {id: nodes[j].id}}).then(function(node){
                       io.emit('monitormap:node:change',nodes[j]);
-                			console.log(" UP : "+nodes[j].mac);
                     });
                     break;
                   }
@@ -156,7 +155,6 @@ var _init = function(){
                   }
                   models.Node.create(tmp,{ignoreDuplicates: true}).then(function(node){
                     io.emit('monitormap:node:change',node);
-                    console.log("ADD: "+node.mac);
                   });
                 }
               }
@@ -165,7 +163,6 @@ var _init = function(){
         }
         rrd.updateGlobal(g,function(){
           io.emit('monitormap:global',g);
-          console.log("[N-Gl]");
         });
 	    });
 		});
