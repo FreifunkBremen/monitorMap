@@ -14,14 +14,7 @@ var _init = function(){
 			var cur_time = (new Date()).getTime();
 			if((new Date(nodes[j].datetime)).getTime() < (cur_time-1000*5) && nodes[j].status)
 			  nodes[j].updateAttributes({
-			    datetime:cur_time,
-			    status:false,
-			    client_50:0,
-			    client_24:0,
-			    traffic_tx_bytes:0,
-			    traffic_tx_packets:0,
-			    traffic_rx_bytes:0,
-			    traffic_rx_packets:0,
+			    status:false
 			  }).then(function(){
 			  //models.Node.update(tmp, {where: {id: nodes[j].id}}).then(function(node){
 			    io.emit('monitormap:node:change',nodes[j]);

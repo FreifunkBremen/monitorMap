@@ -2,8 +2,8 @@ var config = require('../config/environment').database,
 	Sequelize = require('sequelize'),
 	DB = new Sequelize(config.db, config.user, config.password, {
 		define: {freezeTableName: true},
-		dialect: "mysql",
-		port:    config.port,
+		dialect: (config.postgres)?"postgres":"mysql",
+		port:    (config.port)?config.port:null,
 		logging: false
 	}),
 	Node = DB.define('node',{

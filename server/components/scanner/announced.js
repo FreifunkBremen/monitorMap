@@ -30,16 +30,18 @@ var _init = function(){
               g.rx_packets+=data[i].traffic.rx.packets;
               g.tx_bytes+=data[i].traffic.tx.bytes;
               g.tx_packets+=data[i].traffic.tx.packets;
-
-              g.rx24_bytes+=data[i].traffic.rx24.bytes;
-              g.rx24_packets+=data[i].traffic.rx24.packets;
-              g.tx24_bytes+=data[i].traffic.tx24.bytes;
-              g.tx24_packets+=data[i].traffic.tx24.packets;
-
-              g.rx50_bytes+=data[i].traffic.rx50.bytes;
-              g.rx50_packets+=data[i].traffic.rx50.packets;
-              g.tx50_bytes+=data[i].traffic.tx50.bytes;
-              g.tx50_packets+=data[i].traffic.tx50.packets;
+              if(data[i].traffic.rx24){
+                g.rx24_bytes+=data[i].traffic.rx24.bytes;
+                g.rx24_packets+=data[i].traffic.rx24.packets;
+                g.tx24_bytes+=data[i].traffic.tx24.bytes;
+                g.tx24_packets+=data[i].traffic.tx24.packets;
+              }
+              if(data[i].traffic.rx50){
+                g.rx50_bytes+=data[i].traffic.rx50.bytes;
+                g.rx50_packets+=data[i].traffic.rx50.packets;
+                g.tx50_bytes+=data[i].traffic.tx50.bytes;
+                g.tx50_packets+=data[i].traffic.tx50.packets;
+              }
             }
             g.mem_total+=data[i].memory.total;
             tmp = {
@@ -66,16 +68,18 @@ var _init = function(){
               tmp.values.rx_packets = data[i].traffic.rx.packets;
               tmp.values.tx_bytes = data[i].traffic.tx.bytes;
               tmp.values.tx_packets = data[i].traffic.tx.packets;
-
-              tmp.values.rx24_bytes = data[i].traffic.rx24.bytes;
-              tmp.values.rx24_packets = data[i].traffic.rx24.packets;
-              tmp.values.tx24_bytes = data[i].traffic.tx24.bytes;
-              tmp.values.tx24_packets = data[i].traffic.tx24.packets;
-
-              tmp.values.rx50_bytes = data[i].traffic.rx50.bytes;
-              tmp.values.rx50_packets = data[i].traffic.rx50.packets;
-              tmp.values.tx50_bytes = data[i].traffic.tx50.bytes;
-              tmp.values.tx50_packets = data[i].traffic.tx50.packets;
+              if(data[i].traffic.rx50){
+                tmp.values.rx24_bytes = data[i].traffic.rx24.bytes;
+                tmp.values.rx24_packets = data[i].traffic.rx24.packets;
+                tmp.values.tx24_bytes = data[i].traffic.tx24.bytes;
+                tmp.values.tx24_packets = data[i].traffic.tx24.packets;
+              }
+              if(data[i].traffic.rx24){
+                tmp.values.rx50_bytes = data[i].traffic.rx50.bytes;
+                tmp.values.rx50_packets = data[i].traffic.rx50.packets;
+                tmp.values.tx50_bytes = data[i].traffic.tx50.bytes;
+                tmp.values.tx50_packets = data[i].traffic.tx50.packets;
+              }
             }
             //console.log(tmp);
             rrd.updateNode(tmp,function(){
@@ -95,16 +99,18 @@ var _init = function(){
                       tmp.traffic_tx_packets = data[i].traffic.rx.packets;
                       tmp.traffic_rx_bytes = data[i].traffic.tx.bytes;
                       tmp.traffic_rx_packets = data[i].traffic.tx.packets;
-
-                      tmp.traffic_tx24_bytes = data[i].traffic.rx24.bytes;
-                      tmp.traffic_tx24_packets = data[i].traffic.rx24.packets;
-                      tmp.traffic_rx24_bytes = data[i].traffic.tx24.bytes;
-                      tmp.traffic_rx24_packets = data[i].traffic.tx24.packets;
-
-                      tmp.traffic_tx50_bytes = data[i].traffic.rx50.bytes;
-                      tmp.traffic_tx50_packets = data[i].traffic.rx50.packets;
-                      tmp.traffic_rx50_bytes = data[i].traffic.tx50.bytes;
-                      tmp.traffic_rx50_packets = data[i].traffic.tx50.packets;
+                      if(data[i].traffic.rx24){
+                        tmp.traffic_tx24_bytes = data[i].traffic.rx24.bytes;
+                        tmp.traffic_tx24_packets = data[i].traffic.rx24.packets;
+                        tmp.traffic_rx24_bytes = data[i].traffic.tx24.bytes;
+                        tmp.traffic_rx24_packets = data[i].traffic.tx24.packets;
+                      }
+                      if(data[i].traffic.rx50){
+                        tmp.traffic_tx50_bytes = data[i].traffic.rx50.bytes;
+                        tmp.traffic_tx50_packets = data[i].traffic.rx50.packets;
+                        tmp.traffic_rx50_bytes = data[i].traffic.tx50.bytes;
+                        tmp.traffic_rx50_packets = data[i].traffic.tx50.packets;
+                      }
                     }
                     nodes[j].updateAttributes(tmp).then(function(){
                     //models.Node.update(tmp, {where: {id: nodes[j].id}}).then(function(node){
@@ -135,15 +141,18 @@ var _init = function(){
                     tmp.traffic_rx_bytes = data[i].traffic.tx.bytes;
                     tmp.traffic_rx_packets = data[i].traffic.tx.packets;
 
-                    tmp.traffic_tx24_bytes = data[i].traffic.rx24.bytes;
-                    tmp.traffic_tx24_packets = data[i].traffic.rx24.packets;
-                    tmp.traffic_rx24_bytes = data[i].traffic.tx24.bytes;
-                    tmp.traffic_rx24_packets = data[i].traffic.tx24.packets;
-
-                    tmp.traffic_tx50_bytes = data[i].traffic.rx50.bytes;
-                    tmp.traffic_tx50_packets = data[i].traffic.rx50.packets;
-                    tmp.traffic_rx50_bytes = data[i].traffic.tx50.bytes;
-                    tmp.traffic_rx50_packets = data[i].traffic.tx50.packets;
+                    if(data[i].traffic.rx24){
+                      tmp.traffic_tx24_bytes = data[i].traffic.rx24.bytes;
+                      tmp.traffic_tx24_packets = data[i].traffic.rx24.packets;
+                      tmp.traffic_rx24_bytes = data[i].traffic.tx24.bytes;
+                      tmp.traffic_rx24_packets = data[i].traffic.tx24.packets;
+                    }
+                    if(data[i].traffic.rx50){
+                      tmp.traffic_tx50_bytes = data[i].traffic.rx50.bytes;
+                      tmp.traffic_tx50_packets = data[i].traffic.rx50.packets;
+                      tmp.traffic_rx50_bytes = data[i].traffic.tx50.bytes;
+                      tmp.traffic_rx50_packets = data[i].traffic.tx50.packets;
+                    }
                   }
                   models.Node.create(tmp,{ignoreDuplicates: true}).then(function(node){
                     io.emit('monitormap:node:change',node);

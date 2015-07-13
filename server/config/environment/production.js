@@ -1,43 +1,30 @@
 'use strict';
 
-// Production specific configuration
-// =================================
+// Development specific configuration
+// ==================================
 module.exports = {
 	DOMAIN:'http://localhost:9000',
+
 	scanner:{
-		ipv6_prefix:'2001:1a80:303b:0',
-		ipv6_interface:'2001:1a80:303b:0:ba76:3fff:fed3:6e5c',
+		ipv6_prefix:'fe80::',
+		ipv6_interface:'eth0',
 		ipv6_pingall:'ff02::1',
-		timer_ping:10, //sec
-		timer_count:3,
-		timer_alfred:50,
-		socket_alfred:"/tmp/alfred",
+		meshviewer:'http://downloads.bremen.freifunk.net/data/',
+		timer_announce:5,
+		timer_meshviewer:360,
 		latitude:53.0698,
 		longitude:8.8154,
-		default_channel_24:11,
-		default_channel_50:140,
+		channels_24:[1,5,9,13],
+		channels_50:[36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140],
 		default_channel_50_power:10,
 		default_channel_24_power:10,
 	},
-	// Server IP
-	ip:       process.env.IP ||
-						undefined,
-
-	// Server port
-	port:     process.env.PORT ||
-						8080,
-
+	ip:'0.0.0.0',
 	// MySQL connection options
 	database: {
-		db:    process.env.MYSQL_DB ||
-						'monitormap',
-		user:    process.env.MYSQL_USER ||
-						'monitormap',
-		password:    process.env.MYSQL_PASSWORD ||
-						'monitormap',
-		host:    process.env.MYSQL_HOST ||
-						'localhost',
-		port:    process.env.MYSQL_PORT ||
-						3306
+		postgres:true,
+		db:    'monitoring',
+		user:  'monitoring',
+		password:    null
 	}
 };
