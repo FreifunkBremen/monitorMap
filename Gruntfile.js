@@ -394,6 +394,7 @@ module.exports = function (grunt) {
 					dest: '<%= yeoman.dist %>',
 					src: [
 						'package.json',
+						'.gitignore',
 						'!server/components/announced/a.out',
 						'!server/config/environment/production.js',
 						'server/**/*'
@@ -568,14 +569,12 @@ module.exports = function (grunt) {
 				}
 			}
 		},
-		git_deploy: {
-			github: {
-				options: {
-					url: 'git@github.com:genofire/monitorMap.git',
-					branch:'gh-pages'
-				},
-				src: 'dist'
+		'gh-pages': {
+			options: {
+				base: 'dist',
+				dotfiles: true
 			},
+			src: ['**']
 		},
 	});
 
@@ -655,7 +654,7 @@ module.exports = function (grunt) {
 		'uglify',
 		'rev',
 		'usemin',
-		'git_deploy:github'
+		'gh-pages',
 	]);
 
 	grunt.registerTask('default', [

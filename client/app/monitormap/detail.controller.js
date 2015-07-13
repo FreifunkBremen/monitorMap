@@ -7,7 +7,8 @@ angular.module('monitormapApp')
 			$scope.node_id = $scope.obj.mac.split(':').join('');
 		});
 
-		nodes.detail($stateParams.id,function(){
+		nodes.detail($stateParams.id,function(result){
+			$scope.ipv6 = result.ipv6;
 			$scope.obj = nodes.list[$stateParams.id]
 			$scope.node_id = $scope.obj.mac.split(':').join('');
 			var rrd_data = undefined;
@@ -41,15 +42,31 @@ angular.module('monitormapApp')
 	            // ds_graph_options
 	            'load': {
 	                label: 'Load',
-	                color: "#00ff00"
+	                color: "#FF8E00"
 	            },
+							'clients': {
+	                label: 'All Clients',
+	                color: "#00733C",
+	                yaxis: 2,
+	                lines: { fill: true }
+	            }
 	            'clients50': {
 	                label: 'Clients 5.0 Ghz',
-	                color: "#0000ff"
+	                color: "#218555"
 	            },
 	            'clients24': {
 	                label: 'Clients 2.4 Ghz',
-	                color: "#ff0000"
+	                color: "#36D88A"
+	            },
+	            'mem_total': {
+	                label: 'Mem',
+	                color: "#65A6D1",
+	                yaxis: 2,
+	                lines: { fill: true }
+	            },
+							'mem_usage': {
+	                label: 'Mem Usage',
+	                color: "#0A67A3",
 	            },
 	            'upstate': {
 	                label: 'Uptime',
@@ -66,7 +83,7 @@ angular.module('monitormapApp')
 	            use_rra: false,
 	            rra: 0,
 	            use_checked_DSs: true,
-	            checked_DSs: ["load", "clients50", "clients24", "upstate"],
+	            checked_DSs: ["load",'clients',"clients50", "clients24",'mem_total','mem_usage' "upstate"],
 	            use_windows: true,
 	            window_min: 1436400000,
 	            window_max: 1437350400,

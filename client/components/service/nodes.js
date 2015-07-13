@@ -31,7 +31,7 @@ angular.module('monitormapApp')
 		socket.emit('monitormap:node:detail',{id:id},function(result) {
       o.list[id] = result.node;
 			if(fn)
-				fn();
+				fn(result);
 		});
   }
 	o.save = function(obj,fn){

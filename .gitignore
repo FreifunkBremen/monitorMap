@@ -6,5 +6,19 @@ client/bower_components
 client/translations.js
 dist
 /server/config/local.env.js
+!server/components/announced/a.out
+!server/config/environment/production.js
+
+.bash_history
+.bash_logout
+.bashrc
+.gitconfig
+.npm/
+.profile
+.psql_history
+app.js
+npm-debug.log
+public/data/
+
 
 *~

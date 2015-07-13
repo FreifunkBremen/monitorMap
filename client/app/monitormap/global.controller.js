@@ -40,19 +40,19 @@ angular.module('monitormapApp')
             // ds_graph_options
             'nodes': {
                 label: 'Nodes',
-                color: "#00ff00"
+                color: "#FF4100"
             },
             'clients50': {
                 label: 'Clients 5.0 Ghz',
-                color: "#0000ff"
+                color: "#218555"
             },
             'clients24': {
                 label: 'Clients 2.4 Ghz',
-                color: "#ff0000"
+                color: "#36D88A"
             },
             'clients': {
                 label: 'All Clients',
-                color: "#ffcccc",
+                color: "#00733C",
                 yaxis: 2,
                 lines: { fill: true }
             }
