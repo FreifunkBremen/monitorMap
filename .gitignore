@@ -1,5 +1,9 @@
 node_modules
+<<<<<<< HEAD
 public/data
+=======
+public
+>>>>>>> 2fff067e91c1c5e61f0f5c8b20183e2789b43a59
 .tmp
 .idea
 client/bower_components
