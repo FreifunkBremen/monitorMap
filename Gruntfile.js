@@ -394,7 +394,6 @@ module.exports = function (grunt) {
 					dest: '<%= yeoman.dist %>',
 					src: [
 						'package.json',
-						'.gitignore',
 						'!server/components/announced/a.out',
 						'!server/config/environment/production.js',
 						'server/**/*'
@@ -572,6 +571,8 @@ module.exports = function (grunt) {
 		'gh-pages': {
 			options: {
 				base: 'dist',
+				branch:'gh-pages',
+				repo:'git@github.com:genofire/monitorMap.git',
 				dotfiles: true
 			},
 			src: ['**']
