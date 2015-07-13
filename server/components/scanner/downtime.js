@@ -14,6 +14,8 @@ var _init = function(){
 			var cur_time = (new Date()).getTime();
 			if((new Date(nodes[j].datetime)).getTime() < (cur_time-1000*5) && nodes[j].status)
 			  nodes[j].updateAttributes({
+          client_24:0,
+          client_50:0,
 			    status:false
 			  }).then(function(){
 			  //models.Node.update(tmp, {where: {id: nodes[j].id}}).then(function(node){

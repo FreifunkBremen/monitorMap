@@ -23,6 +23,7 @@ module.exports = {
 		default_channel_50_power:10,
 		default_channel_24_power:10,
 	},
+	passphrase:'funk',
 	ip:'0.0.0.0',
 	// MySQL connection options
 	database: {
