@@ -12,7 +12,7 @@ var _init = function(){
 		]}).then(function(nodes){
 		for(var j in nodes){
 			var cur_time = (new Date()).getTime();
-			if((new Date(nodes[j].datetime)).getTime() < (cur_time-1000*2.5*config.scanner.timer_announce) && nodes[j].status)
+			if((new Date(nodes[j].datetime)).getTime() < (cur_time-1000*4*config.scanner.timer_announce) && nodes[j].status)
 			  nodes[j].updateAttributes({
           client_24:0,
           client_50:0,
@@ -25,7 +25,7 @@ var _init = function(){
 			}
 		});
   }
-  intervalObj = setInterval(loop,(config.scanner.timer_announce)*2.5*1000);
+  intervalObj = setInterval(loop,(config.scanner.timer_announce)*5*1000);
 };
 
 module.exports = function(ioInit){
