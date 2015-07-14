@@ -49,18 +49,22 @@ module.exports.getJSON = function(fn){
       }
     };
     for(var i in nodes){
-      output.nodes.push(nodes[i].name);
-      var mac=nodes[i].mac.replace(/:/g,"-").split("-");
+      var node = nodes[i]
+      var name = node.mac.replace(/[:-]/g,"");
+      var mac  = node.mac.replace(/:/g,"-").split("-");
       mac[5] = dec2hex(hex2dec(mac[5])-2);
-      mac = mac.join(':');
-      output._meta.hostvars[nodes[i].name] = {
-        "ansible_ssh_host":ipv6calc.toIPv6(config.scanner.ipv6_prefix,mac),
-        "radio24_channel":nodes[i].channel_24,
-        "radio24_txpower":nodes[i].channel_24_power,
-        "radio5_channel":nodes[i].channel_50,
-        "radio5_txpower":nodes[i].channel_50_power,
-        "geo_latitude":nodes[i].lat,
-        "geo_longitude":nodes[i].lon
+      
+      output.nodes.push(name);
+      
+      output._meta.hostvars[name] = {
+        "ansible_ssh_host": ipv6calc.toIPv6(config.scanner.ipv6_prefix, mac.join(':')),
+        "node_name":        node.name,
+        "radio24_channel":  node.channel_24,
+        "radio24_txpower":  node.channel_24_power,
+        "radio5_channel":   node.channel_50,
+        "radio5_txpower":   node.channel_50_power,
+        "geo_latitude":     node.lat,
+        "geo_longitude":    node.lon
       };
     }
     if(!fn)
