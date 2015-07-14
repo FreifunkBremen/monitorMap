@@ -16,6 +16,7 @@ var config = require('../config/environment').database,
 		mac:{type: Sequelize.STRING, unique: true},
 		lat:{type: Sequelize.FLOAT},
 		lon:{type: Sequelize.FLOAT},
+
 		channel_24:{type: Sequelize.INTEGER},
 		channel_50:{type: Sequelize.INTEGER},
 		channel_24_power:{type: Sequelize.INTEGER},
@@ -24,6 +25,10 @@ var config = require('../config/environment').database,
 		status:{type:Sequelize.BOOLEAN},
 		client_24:{type: Sequelize.INTEGER},
 		client_50:{type: Sequelize.INTEGER},
+
+		ports:{type: Sequelize.INTEGER},
+		ports_gb:{type: Sequelize.INTEGER},
+
 		traffic_tx_bytes:{type: Sequelize.INTEGER},
 		traffic_tx_packets:{type: Sequelize.INTEGER},
 		traffic_rx_bytes:{type: Sequelize.INTEGER},

@@ -85,62 +85,48 @@ var _init = function(){
 						rrd.updateNode(tmp,function(){
 							if(nodes){
 								var exists = false;
-								for(var j in nodes){
-									if(data[i].node_id == nodes[j].mac.split(":").join('')){
-										exists = true;
-										tmp = {
-											datetime:(new Date()).toString(),
-											status:true,
-											client_50:Math.floor(data[i].clients.wifi50),
-											client_24:Math.floor(data[i].clients.wifi24)
-										};
-										if(data[i].traffic){
-											tmp.traffic_tx_bytes = data[i].traffic.rx.bytes;
-											tmp.traffic_tx_packets = data[i].traffic.rx.packets;
-											tmp.traffic_rx_bytes = data[i].traffic.tx.bytes;
-											tmp.traffic_rx_packets = data[i].traffic.tx.packets;
-											if(data[i].traffic.rx24){
-												tmp.traffic_tx24_bytes = data[i].traffic.rx24.bytes;
-												tmp.traffic_tx24_packets = data[i].traffic.rx24.packets;
-												tmp.traffic_rx24_bytes = data[i].traffic.tx24.bytes;
-												tmp.traffic_rx24_packets = data[i].traffic.tx24.packets;
-											}
-											if(data[i].traffic.rx50){
-												tmp.traffic_tx50_bytes = data[i].traffic.rx50.bytes;
-												tmp.traffic_tx50_packets = data[i].traffic.rx50.packets;
-												tmp.traffic_rx50_bytes = data[i].traffic.tx50.bytes;
-												tmp.traffic_rx50_packets = data[i].traffic.tx50.packets;
-											}
-										}
-										nodes[j].updateAttributes(tmp).then(function(){
-										//models.Node.update(tmp, {where: {id: nodes[j].id}}).then(function(node){
-											io.emit('monitormap:node:change',nodes[j]);
-										});
-										//break;
+								ports = 0;
+								ports_gb = 0;
+								if(data[i].switch){
+									if(data[i].switch.port1.link=="up"){
+										ports++;
+										if(data[i].switch.port1.speed.indexOf("1000")>=0)
+											ports_gb++;
+									}
+									if(data[i].switch.port2.link=="up"){
+										ports++;
+										if(data[i].switch.port2.speed.indexOf("1000")>=0)
+											ports_gb++;
+									}
+									if(data[i].switch.port3.link=="up"){
+										ports++;
+										if(data[i].switch.port3.speed.indexOf("1000")>=0)
+											ports_gb++;
+									}
+									if(data[i].switch.port4.link=="up"){
+										ports++;
+										if(data[i].switch.port4.speed.indexOf("1000")>=0)
+											ports_gb++;
+									}
+									if(data[i].switch.port5.link=="up"){
+										ports++;
+										if(data[i].switch.port5.speed.indexOf("1000")>=0)
+											ports_gb++;
 									}
 								}
-							}
-							if(!exists){
-								var tmp = {
-									name:data[i].node_id,
-									mac:data[i].node_id.slice(0, 2)+':'+data[i].node_id.slice(2, 4)+':'+data[i].node_id.slice(4, 6)+':'+data[i].node_id.slice(6, 8)+':'+data[i].node_id.slice(8, 10)+':'+data[i].node_id.slice(10, 12),
-									channel_24:config.scanner.channels_24[Math.floor(Math.random() * config.scanner.channels_24.length)],
-									channel_50:config.scanner.channels_50[Math.floor(Math.random() * config.scanner.channels_50.length)],
-									channel_24_power:config.scanner.default_channel_24_power,
-									channel_50_power:config.scanner.default_channel_50_power,
-									lat:config.scanner.latitude,
-									lon:config.scanner.longitude,
+								tmp = {
 									datetime:(new Date()).toString(),
 									status:true,
 									client_50:Math.floor(data[i].clients.wifi50),
-									client_24:Math.floor(data[i].clients.wifi24)
+									client_24:Math.floor(data[i].clients.wifi24),
+									ports:ports,
+									ports_gb:ports_gb
 								};
 								if(data[i].traffic){
 									tmp.traffic_tx_bytes = data[i].traffic.rx.bytes;
 									tmp.traffic_tx_packets = data[i].traffic.rx.packets;
 									tmp.traffic_rx_bytes = data[i].traffic.tx.bytes;
 									tmp.traffic_rx_packets = data[i].traffic.tx.packets;
-
 									if(data[i].traffic.rx24){
 										tmp.traffic_tx24_bytes = data[i].traffic.rx24.bytes;
 										tmp.traffic_tx24_packets = data[i].traffic.rx24.packets;
@@ -154,6 +140,27 @@ var _init = function(){
 										tmp.traffic_rx50_packets = data[i].traffic.tx50.packets;
 									}
 								}
+								for(var j in nodes){
+									if(data[i].node_id == nodes[j].mac.split(":").join('')){
+										exists = true;
+										nodes[j].updateAttributes(tmp).then(function(){
+										//models.Node.update(tmp, {where: {id: nodes[j].id}}).then(function(node){
+											io.emit('monitormap:node:change',nodes[j]);
+										});
+										//break;
+									}
+								}
+							}
+							if(!exists){
+								tmp.channel_24 = config.scanner.channels_24[Math.floor(Math.random() * config.scanner.channels_24.length)];
+								tmp.channel_50 = config.scanner.channels_50[Math.floor(Math.random() * config.scanner.channels_50.length)];
+								tmp.channel_24_power = config.scanner.default_channel_24_power;
+								tmp.channel_50_power = config.scanner.default_channel_50_power;
+								tmp.lat = config.scanner.latitude;
+								tmp.lon = config.scanner.longitude;
+								tmp.mac = data[i].node_id.slice(0, 2)+':'+data[i].node_id.slice(2, 4)+':'+data[i].node_id.slice(4, 6)+':'+data[i].node_id.slice(6, 8)+':'+data[i].node_id.slice(8, 10)+':'+data[i].node_id.slice(10, 12);
+								tmp.name = data[i].node_id;
+
 								models.Node.create(tmp,{ignoreDuplicates: true}).then(function(node){
 									io.emit('monitormap:node:change',node);
 								});

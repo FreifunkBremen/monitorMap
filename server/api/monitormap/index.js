@@ -105,7 +105,6 @@ module.exports = function(socket) {
 
 	socket.on('monitormap:node:save',function(obj,passphrase,fn){
     if(passphrase==config.passphrase){
-              console.log(passphrase);
   		models.Node.update({
   			name:obj.name,
   			owner:obj.owner,
