@@ -1,6 +1,6 @@
 h1.ui.header {{'Node'|translate}} {{obj.name}}
 	.sub.header MAC: {{obj.mac}} &brvbar; IPv6:   {{ipv6}}
-		a(ui-sref='monitormap.map({c:"{{obj.lat}}\:{{obj.lon}}\:16"})')
+		a(ui-sref='monitormap.map({c:"{{obj.lat}}:{{obj.lon}}:16"})')
 			i.icon.marker
 table.ui.table
 	tbody
@@ -11,8 +11,13 @@ table.ui.table
 			td(colspan='2') Parent
 			td(colspan='2')
 				a(ui-sref='monitormap.detail({id:obj.parent.id})') {{obj.parent.name}}
-				a(ui-sref='monitormap.map({c:"{{obj.parent.lat}}\:{{obj.parent.lon}}\:18"})')
+				a(ui-sref='monitormap.map({c:"{{obj.parent.lat}}:{{obj.parent.lon}}:18"})')
 					i.icon.marker
+		tr
+			td Online Ports
+			td {{obj.ports}}
+			td GBit-Ports
+			td {{obj.ports_gb}}
 		tr
 			td Channel 2.4
 			td {{obj.channel_24}}

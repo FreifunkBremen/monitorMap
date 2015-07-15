@@ -7,13 +7,14 @@ module.exports = {
 
 	scanner:{
 		ipv6_prefix:'fe80::',
-		ipv6_interface:'tap0',
+		ipv6_interface:'wl0',
 		ipv6_pingall:'ff02::1',
 		meshviewer:'http://downloads.bremen.freifunk.net/data/',
-		//timer_ping:10, //sec
-		//timer_count:3,
+		timer_ping:1, //sec
+		timer_ping_count:2,
+		timer_ping_between: 5,
 		//timer_alfred:50,
-		timer_announce:5,
+		timer_announce:15,
 		timer_meshviewer:360,
 		//socket_alfred:"/tmp/alfred",
 		latitude:53.0698,

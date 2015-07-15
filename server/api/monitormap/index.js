@@ -105,7 +105,6 @@ module.exports = function(socket) {
 
 	socket.on('monitormap:node:save',function(obj,passphrase,fn){
     if(passphrase==config.passphrase){
-              console.log(passphrase);
   		models.Node.update({
   			name:obj.name,
   			owner:obj.owner,
@@ -132,6 +131,17 @@ module.exports = function(socket) {
       fn({s:false});
     }
 	});
+
+  socket.on('monitormap:node:remove',function(obj,passphrase,fn){
+    if(passphrase==config.passphrase){
+      models.Node.update({
+      }, {where: {id: obj.id}}).then(function(node){
+        fn({s:true,node:dbnode});
+      });
+    }else{
+      fn({s:false});
+    }
+  });
 
 
 	socket.on('monitormap:node:add',function(obj,fn){

@@ -58,6 +58,7 @@ angular.module('monitormapApp')
             }
         }, {
             // rrdflot_defaults
+						graph_only: false,
             num_cb_rows: 9,
             use_element_buttons: true,
             multi_ds: false,
@@ -66,14 +67,11 @@ angular.module('monitormapApp')
             rra: 0,
             use_checked_DSs: true,
             checked_DSs: ["nodes", "clients50", "clients24", "clients"],
-            use_windows: true,
-            window_min: 1436400000,
-            window_max: 1437350400,
+            use_windows: false,
             graph_width: "700px",
             graph_height: "300px",
             scale_width: "350px",
-            scale_height: "200px",
-            timezone: "+2"
+            scale_height: "200px"
         });
         $("#graph_time_sel").val("+2");
         f.callback_timezone_changed();

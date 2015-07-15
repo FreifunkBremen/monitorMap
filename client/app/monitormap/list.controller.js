@@ -14,6 +14,10 @@ angular.module('monitormapApp')
 		nodes.listRefresh(function(){
 			$scope.list = nodes.getArray();
 		});
+		$scope.getTime = function(b,a){
+			//TODO UTC quick Fix
+			return (b)-(new Date(a)).getTime();
+		}
 
 		$scope.getUpTotal = function(){
 	    var total = 0,tmp;

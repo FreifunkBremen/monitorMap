@@ -22,7 +22,10 @@ angular.module('monitormapApp', [
 			ioSocket: io.connect({path:'/ws'})
 		});
 	})
-	.run(function(gettextCatalog,socket){
+	.run(function(gettextCatalog,socket,$rootScope,$interval){
 		gettextCatalog.currentLanguage = 'de';
 		//gettextCatalog.debug = true;
+		$interval(function () {
+			$rootScope.currentTime = new Date().getTime();
+		}, 1000);
 	})
