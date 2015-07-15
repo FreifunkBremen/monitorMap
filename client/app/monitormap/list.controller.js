@@ -29,15 +29,24 @@ angular.module('monitormapApp')
 		    }
 	    return total;
 		}
-		$scope.getClientsTotal = function(){
+		$scope.getClients24Total = function(){
+	    var total = 0,tmp;
+			if($scope.list){
+		    for(var i = 0; i < $scope.list.length; i++){
+					tmp = $scope.list[i];
+					if(typeof tmp.client_24 !== 'undefined')
+	        	total +=tmp.client_24;
+		    }
+			}
+	    return total;
+		}
+		$scope.getClients5Total = function(){
 	    var total = 0,tmp;
 			if($scope.list){
 		    for(var i = 0; i < $scope.list.length; i++){
 					tmp = $scope.list[i];
 					if(typeof tmp.client_50 !== 'undefined')
 	        	total +=tmp.client_50;
-					if(typeof tmp.client_24 !== 'undefined')
-	        	total +=tmp.client_24;
 		    }
 			}
 	    return total;
