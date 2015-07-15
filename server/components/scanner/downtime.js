@@ -92,7 +92,8 @@ var _init = function(){
         });
         ping.on('ping', function(exit){
           nodes[j].updateAttributes({
-            status:true
+            status:true,
+            datetime:(new Date().getTime()),
           }).then(function(){
           //models.Node.update(tmp, {where: {id: nodes[j].id}}).then(function(node){
             io.emit('monitormap:node:change',nodes[j]);
