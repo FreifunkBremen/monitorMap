@@ -46,6 +46,8 @@ function correctIp(mac){
   return mac.join(':');
 }
 
+
+var regex = /(\d+)\spackets\stransmitted,\s(\d+)\sreceived,\s(\d+)%\spacket\sloss,\stime\s(\d+)ms/g ;
 Ping.configure({
   "command": "ping6",
   "args": ["-n","-i",config.scanner.timer_ping,"-I",config.scanner.ipv6_interface,'-c',config.scanner.timer_ping_count],
@@ -80,24 +82,30 @@ var _init = function(){
 		]}).then(function(nodes){
   		for(var j in nodes){
         var ping = new Ping(ipv6calc.toIPv6(config.scanner.ipv6_prefix,correctIp(nodes[j].mac)));
-        ping.on('fail', function(exit){
-  			  nodes[j].updateAttributes({
-            client_24:0,
-            client_50:0,
-  			    status:false
-  			  }).then(function(){
-  			  //models.Node.update(tmp, {where: {id: nodes[j].id}}).then(function(node){
-  			    io.emit('monitormap:node:change',nodes[j]);
-  			  });
-        });
-        ping.on('ping', function(exit){
-          nodes[j].updateAttributes({
-            status:true,
-            datetime:(new Date().getTime()),
-          }).then(function(){
-          //models.Node.update(tmp, {where: {id: nodes[j].id}}).then(function(node){
-            io.emit('monitormap:node:change',nodes[j]);
-          });
+
+        ping.on('exit', function(exit){
+          var tmp = regex.exec(exit);
+          if(tmp!==null){
+            var lost_prozent = tmp[3], lost = tmp[2], recieved = tmp[1],time=tmp[4],recieved_prozent = 100-tmp[3];
+            if(recieved_prozent > config.scanner.timer_ping_offline){
+              nodes[j].updateAttributes({
+                status:true,
+                datetime:(new Date().getTime()),
+              }).then(function(){
+              //models.Node.update(tmp, {where: {id: nodes[j].id}}).then(function(node){
+                io.emit('monitormap:node:change',nodes[j]);
+              });
+            }else{
+              nodes[j].updateAttributes({
+                client_24:0,
+                client_50:0,
+                status:false
+              }).then(function(){
+              //models.Node.update(tmp, {where: {id: nodes[j].id}}).then(function(node){
+                io.emit('monitormap:node:change',nodes[j]);
+              });
+            }
+          }
         });
       }
     });
