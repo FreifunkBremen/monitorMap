@@ -29,7 +29,7 @@ table.ui.sortable.celled.table.grey
 			td {{getTime(currentTime,item.datetime)|date:'HH:mm:ss':'UTC'}}
 			td {{item.datetime|date:'d. HH:mm:ss'}}
 			td {{item.createdAt|date:'d. HH:mm:ss'}}
-			td {{item.ports_gb/item.ports}}
+			td {{item.ports_gb*100/item.ports}}
 			td {{item.ports_gb}}/{{item.ports}}
 			td {{item.client_50+item.client_24}}
 			td {{item.client_24}}
