@@ -3,7 +3,7 @@
 angular.module('monitormapApp')
 	.controller('EditMonitormapCtrl',function ($scope,$stateParams,nodes) {
 		$scope.channels_24 = [1,5,9,13];
-		$scope.channels_50 = [36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140];
+		$scope.channels_50 = [36, 40, 44, 48];
 
 		$scope.center = {
 			autoDiscover: false

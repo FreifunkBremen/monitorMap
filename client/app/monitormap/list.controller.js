@@ -2,7 +2,7 @@
 
 angular.module('monitormapApp')
 	.controller('ListMonitormapCtrl',function ($scope,nodes) {
-		$scope.sort = {field:'datetime',asc:true}
+		$scope.sort = {field:'name',asc:false}
 		$scope.sortC = function(a){
 			if(a == $scope.sort.field)
 				$scope.sort.asc = !$scope.sort.asc;
