@@ -10,8 +10,9 @@ table.ui.sortable.celled.table.grey
 			th(ng-click='sortC("status")',ng-class="{'sorted':(sort.field=='status'),'ascending':(sort.asc),'descending':(!sort.asc)}") Status
 			th Last Seen Ago
 			th(ng-click='sortC("datetime")',ng-class="{'sorted':(sort.field=='datetime'),'ascending':(sort.asc),'descending':(!sort.asc)}") Last Seen Time
+			th(ng-click='sortC("createdAt")',ng-class="{'sorted':(sort.field=='createdAt'),'ascending':(sort.asc),'descending':(!sort.asc)}") First Seen
 			th(ng-click='sortC("(ports_gb/ports)")',ng-class="{'sorted':(sort.field=='(ports_gb/ports)'),'ascending':(sort.asc),'descending':(!sort.asc)}") Ports GB%
-			th Ports
+			th(ng-click='sortC("ports")',ng-class="{'sorted':(sort.field=='ports'),'ascending':(sort.asc),'descending':(!sort.asc)}") Ports
 			th(ng-click='sortC("(client_24+client_50)")',ng-class="{'sorted':(sort.field=='(client_24+client_50)'),'ascending':(sort.asc),'descending':(!sort.asc)}") Client ALL
 			th(ng-click='sortC("client_24")',ng-class="{'sorted':(sort.field=='client_24'),'ascending':(sort.asc),'descending':(!sort.asc)}") 2.4 Ghz
 			th(ng-click='sortC("client_50")',ng-class="{'sorted':(sort.field=='client_50'),'ascending':(sort.asc),'descending':(!sort.asc)}") 5.0 Ghz
@@ -25,8 +26,9 @@ table.ui.sortable.celled.table.grey
 			td
 				i.icon.large.green.checkmark.circle(ng-if='item.status')
 				i.icon.large.red.close(ng-if='!item.status')
-			td {{getTime(currentTime,item.datetime)|date:'mm:ss'}}
+			td {{getTime(currentTime,item.datetime)|date:'HH:mm:ss':'UTC'}}
 			td {{item.datetime|date:'d. HH:mm:ss'}}
+			td {{item.createdAt|date:'d. HH:mm:ss'}}
 			td {{item.ports_gb/item.ports}}
 			td {{item.ports_gb}}/{{item.ports}}
 			td {{item.client_50+item.client_24}}
