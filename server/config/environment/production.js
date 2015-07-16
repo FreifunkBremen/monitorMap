@@ -19,7 +19,8 @@ module.exports = {
 		default_channel_50_power:10,
 		default_channel_24_power:10,
 	},
-	ip:'0.0.0.0',
+	ip:'2a00:c380:dead::1337',
+	port:80,
 	// MySQL connection options
 	database: {
 		postgres:true,
