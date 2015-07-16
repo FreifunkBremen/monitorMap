@@ -81,10 +81,12 @@ var _init = function(){
 			{model:models.Node,as:'parent'}
 		]}).then(function(nodes){
   		for(var j in nodes){
-        var ping = new Ping(ipv6calc.toIPv6(config.scanner.ipv6_prefix,correctIp(nodes[j].mac)));
-
+        var ping = new Ping(ipv6calc.toIPv6(config.scanner.ipv6_prefix,correctIp(nodes[j].mac))),data='';
+        ping.on('data', function(exit){
+          data = data+exit;
+        });
         ping.on('exit', function(exit){
-          var tmp = regex.exec(exit);
+          var tmp = regex.exec(data);
           if(tmp!==null){
             var lost_prozent = tmp[3], lost = tmp[2], recieved = tmp[1],time=tmp[4],recieved_prozent = 100-tmp[3];
             if(recieved_prozent > config.scanner.timer_ping_offline){
