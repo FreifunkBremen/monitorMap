@@ -174,7 +174,7 @@ var _init = function(){
 			});
 		});
 	}
-	intervalObj = setInterval(loop,(config.scanner.timer_announce+1)*1000);
+	intervalObj = setInterval(loop,(config.scanner.timer_announce*2)*1000);
 };
 
 module.exports = function(ioInit){

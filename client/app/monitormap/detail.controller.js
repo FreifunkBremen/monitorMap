@@ -2,15 +2,30 @@
 
 angular.module('monitormapApp')
 	.controller('DetailMonitormapCtrl',function ($scope,$stateParams,nodes) {
+
+		$scope.center = {
+			autoDiscover: false
+		}
+		$scope.markers = {}
+		
 		$scope.$on('factory:nodes:list:change',function(event,newValue){
 			$scope.obj = nodes.list[$stateParams.id]
 			$scope.node_id = $scope.obj.mac.split(':').join('');
+			$scope.markers.self = {};
+			$scope.markers.self.lat = $scope.obj.lat;
+			$scope.markers.self.lng = $scope.obj.lon;
 		});
 
 		nodes.detail($stateParams.id,function(result){
 			$scope.ipv6 = result.ipv6;
+			$scope.center.lat = $scope.obj.lat;
+			$scope.center.lng = $scope.obj.lon;
 			$scope.obj = nodes.list[$stateParams.id]
 			$scope.node_id = $scope.obj.mac.split(':').join('');
+			$scope.markers.self = {};
+			$scope.markers.self.lat = $scope.obj.lat;
+			$scope.markers.self.lng = $scope.obj.lon;
+			$scope.center.zoom = 18;
 			var rrd_data = undefined;
 			try {
 					FetchBinaryURLAsync("/data/"+$scope.node_id+".rrd", rrd_handler);
@@ -98,4 +113,11 @@ angular.module('monitormapApp')
 	        f.scale.clearSelection();
 				}
 		});
+		$scope.tiles={
+			url:'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+			options:{
+				attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+			}
+			}
+
 	});

@@ -5,16 +5,19 @@ angular.module('monitormapApp')
 		$scope.channels_24 = [1,5,9,13];
 		$scope.channels_50 = [36, 40, 44, 48];
 
+		$scope.markers = {}
 		$scope.center = {
 			autoDiscover: false
 		}
 
 		nodes.detail($stateParams.id,function(){
 			$scope.obj = nodes.list[$stateParams.id];
+			$scope.markers.self = {};
+			$scope.markers.self.lat = $scope.obj.lat;
+			$scope.markers.self.lng = $scope.obj.lon;
 			$scope.center.lat = $scope.obj.lat;
 			$scope.center.lng = $scope.obj.lon;
 			$scope.center.zoom = 18;
-			console.log($scope.center);
 		});
 		nodes.listRefresh(function(){
 			$scope.nodes_list = nodes.getArray();

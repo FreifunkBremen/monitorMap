@@ -6,6 +6,7 @@
 
 var errors = require('./components/errors');
 var ansible = require('./components/ansible');
+var statistic = require('./components/statistic_api');
 var meshviewer = require('./components/meshviewer');
 
 module.exports = function(app) {
@@ -34,6 +35,12 @@ module.exports = function(app) {
 							res.jsonp(data);
 			});
 		});
+		app.route('/json/statistic')
+			.get(function(req, res) {
+				statistic.getJSON(function(data){
+								res.jsonp(data);
+				});
+			});
 
 	// All undefined asset or api routes should return a 404
 	app.route('/:url(api|auth|components|app|bower_components|assets)/*')

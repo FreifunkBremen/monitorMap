@@ -28,5 +28,13 @@ table.ui.table
 			td {{obj.channel_50}}
 			td Clients
 			td {{obj.client_50}}
+h2 Karte
+leaflet(
+	width='100%',
+	height='250px',
+	center='center',
+	markers='markers',
+	tiles='tiles'
+)
 h2 RRD
 #clientGraph
