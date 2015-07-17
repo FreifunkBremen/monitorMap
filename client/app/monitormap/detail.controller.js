@@ -26,6 +26,7 @@ angular.module('monitormapApp')
 			$scope.markers.self.lat = $scope.obj.lat;
 			$scope.markers.self.lng = $scope.obj.lon;
 			$scope.center.zoom = 18;
+			/*
 			var rrd_data = undefined;
 			try {
 					FetchBinaryURLAsync("/data/"+$scope.node_id+".rrd", rrd_handler);
@@ -113,6 +114,7 @@ angular.module('monitormapApp')
 	        f.scale.clearSelection();
 				}
 		});
+		*/
 		$scope.tiles={
 			url:'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 			options:{
