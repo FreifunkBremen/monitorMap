@@ -11,24 +11,9 @@ var meshviewer = require('./components/meshviewer');
 
 module.exports = function(app) {
 
-	app.route('/json/meshviewer/nodes.json')
-		.get(function(req, res) {
-			meshviewer.getNodes(function(data){
-							res.jsonp(data);
-			});
-		});
-	app.route('/json/meshviewer/graph.json')
-		.get(function(req, res) {
-			meshviewer.getNodes(function(data){
-							res.jsonp(data);
-			});
-		});
-	app.route('/json/meshviewer/node.json')
-		.get(function(req, res) {
-			meshviewer.getNodes(function(data){
-							res.jsonp(data);
-			});
-		});
+	app.post('/json/ansible/setChannel', function (req, res) {
+		console.log(req.body);
+	});
 	app.route('/json/ansible')
 		.get(function(req, res) {
 			ansible.getJSON(function(data){

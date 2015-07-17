@@ -13,7 +13,7 @@ module.exports = function(fn,request){
     output = output+data;
   });
   prozess.stderr.on('data', function(data){
-    err = true;
+    err = data;
   });
   prozess.on('exit', function(exit){
     if(!err && !exit){
