@@ -16,6 +16,10 @@ table.ui.sortable.celled.table.grey
 			th(ng-click='sortC("(client_24+client_50)")',ng-class="{'sorted':(sort.field=='(client_24+client_50)'),'ascending':(sort.asc),'descending':(!sort.asc)}") Client ALL
 			th(ng-click='sortC("client_24")',ng-class="{'sorted':(sort.field=='client_24'),'ascending':(sort.asc),'descending':(!sort.asc)}") 2.4 Ghz
 			th(ng-click='sortC("client_50")',ng-class="{'sorted':(sort.field=='client_50'),'ascending':(sort.asc),'descending':(!sort.asc)}") 5.0 Ghz
+			th(ng-click='sortC("channel_24")',ng-class="{'sorted':(sort.field=='channel_24'),'ascending':(sort.asc),'descending':(!sort.asc)}") 2.4 Ghz Chan
+			th(ng-click='sortC("channel_50")',ng-class="{'sorted':(sort.field=='channel_50'),'ascending':(sort.asc),'descending':(!sort.asc)}") 5.0 Ghz Chan
+			th(ng-click='sortC("channel_24_power")',ng-class="{'sorted':(sort.field=='channel_24_power'),'ascending':(sort.asc),'descending':(!sort.asc)}") 2.4 Ghz TX Po
+			th(ng-click='sortC("channel_50_power")',ng-class="{'sorted':(sort.field=='channel_24_power'),'ascending':(sort.asc),'descending':(!sort.asc)}") 5.0 Ghz TX Po
 			th Map
 			th(ng-show='passphrase.length>3') Edit
 	tbody
@@ -34,6 +38,10 @@ table.ui.sortable.celled.table.grey
 			td {{item.client_50+item.client_24}}
 			td {{item.client_24}}
 			td {{item.client_50}}
+			td {{item.channel_24}}
+			td {{item.channel_50}}
+			td {{item.channel_24_power}}
+			td {{item.channel_50_power}}			
 			td
 				a(ui-sref='monitormap.map({c:"{{item.lat}}\:{{item.lon}}\:16"})')
 					i.icon.marker
@@ -48,7 +56,7 @@ table.ui.sortable.celled.table.grey
 				| Up {{getUpTotal()}}
 				| Down {{ list.length - getUpTotal()}}
 			th(colspan='1')
-			th(colspan='4')
+			th(colspan='6')
 				| Clients 2,4GHz {{getClients24Total()}}
 				| Clients 5GHz {{getClients5Total()}}
 			th(colspan='2')
