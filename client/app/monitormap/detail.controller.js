@@ -7,7 +7,7 @@ angular.module('monitormapApp')
 			autoDiscover: false
 		}
 		$scope.markers = {}
-		
+
 		$scope.$on('factory:nodes:list:change',function(event,newValue){
 			$scope.obj = nodes.list[$stateParams.id]
 			$scope.node_id = $scope.obj.mac.split(':').join('');
@@ -116,6 +116,7 @@ angular.module('monitormapApp')
 		$scope.tiles={
 			url:'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 			options:{
+				maxZoom: 19,
 				attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 			}
 			}
