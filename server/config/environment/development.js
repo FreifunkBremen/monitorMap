@@ -10,6 +10,7 @@ module.exports = {
 		ipv6_interface:'wl0',
 		ipv6_pingall:'ff02::1',
 		meshviewer:'http://downloads.bremen.freifunk.net/data/',
+		timer_ping_downtime:true,
 		timer_ping:1, //sec
 		timer_ping_count:3,
 		timer_ping_offline:50,

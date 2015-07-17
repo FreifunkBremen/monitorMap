@@ -12,8 +12,8 @@ var meshviewer = require('./components/meshviewer');
 
 module.exports = function(app,io) {
 
-	app.post('/api/ansible-playbook/fetch', function (req, res,next) {
-		fetch_info(req.body,res,next,io);
+	app.post('/api/ansible-playbook/fetch', function (req, res) {
+		fetch_info(req.body,res,io);
 	});
 	app.route('/json/ansible')
 		.get(function(req, res) {

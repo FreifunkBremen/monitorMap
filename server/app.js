@@ -16,13 +16,13 @@ var io = require('socket.io').listen(server,{path:'/ws'});
 
 require('./config/express')(app);
 
-var socketRoute = require('./socket');
-io.sockets.on('connection',socketRoute);
-
 require('./routes')(app,io);
 require('./components/models'); //INIT - Test Singelton
 require('./components/scanner')(io); //INIT - Test Singelton
 
+
+var socketRoute = require('./socket');
+io.sockets.on('connection',socketRoute);
 
 // Start server
 server.listen(config.port, config.ip, function () {

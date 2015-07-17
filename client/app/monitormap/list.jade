@@ -2,24 +2,24 @@ h1.ui.header Nodes
 	.sub.header
 		i.icon.list
 		| List
-table.ui.sortable.celled.table.grey
+table.ui.sortable.celled.table.grey(styles="font-size:small;")
 	thead
 		tr
 			th(ng-click='sortC("name")',ng-class="{'sorted':(sort.field=='name'),'ascending':(sort.asc),'descending':(!sort.asc)}") Name
 			th(ng-click='sortC("mac")',ng-class="{'sorted':(sort.field=='mac'),'ascending':(sort.asc),'descending':(!sort.asc)}") MAC
 			th(ng-click='sortC("status")',ng-class="{'sorted':(sort.field=='status'),'ascending':(sort.asc),'descending':(!sort.asc)}") Status
-			th Last Seen Ago
-			th(ng-click='sortC("datetime")',ng-class="{'sorted':(sort.field=='datetime'),'ascending':(sort.asc),'descending':(!sort.asc)}") Last Seen Time
-			th(ng-click='sortC("createdAt")',ng-class="{'sorted':(sort.field=='createdAt'),'ascending':(sort.asc),'descending':(!sort.asc)}") First Seen
+			th(ng-click='sortC("datetime")',ng-class="{'sorted':(sort.field=='datetime'),'ascending':(sort.asc),'descending':(!sort.asc)}") Last Ago
+			th(ng-click='sortC("datetime")',ng-class="{'sorted':(sort.field=='datetime'),'ascending':(sort.asc),'descending':(!sort.asc)}") Last Time
+			th(ng-click='sortC("createdAt")',ng-class="{'sorted':(sort.field=='createdAt'),'ascending':(sort.asc),'descending':(!sort.asc)}") First Time
 			th(ng-click='sortC("(ports_gb/ports)")',ng-class="{'sorted':(sort.field=='(ports_gb/ports)'),'ascending':(sort.asc),'descending':(!sort.asc)}") Ports GB%
 			th(ng-click='sortC("ports")',ng-class="{'sorted':(sort.field=='ports'),'ascending':(sort.asc),'descending':(!sort.asc)}") Ports
-			th(ng-click='sortC("(client_24+client_50)")',ng-class="{'sorted':(sort.field=='(client_24+client_50)'),'ascending':(sort.asc),'descending':(!sort.asc)}") Client ALL
-			th(ng-click='sortC("client_24")',ng-class="{'sorted':(sort.field=='client_24'),'ascending':(sort.asc),'descending':(!sort.asc)}") 2.4 Ghz
-			th(ng-click='sortC("client_50")',ng-class="{'sorted':(sort.field=='client_50'),'ascending':(sort.asc),'descending':(!sort.asc)}") 5.0 Ghz
-			th(ng-click='sortC("channel_24")',ng-class="{'sorted':(sort.field=='channel_24'),'ascending':(sort.asc),'descending':(!sort.asc)}") 2.4 Ghz Chan
-			th(ng-click='sortC("channel_50")',ng-class="{'sorted':(sort.field=='channel_50'),'ascending':(sort.asc),'descending':(!sort.asc)}") 5.0 Ghz Chan
-			th(ng-click='sortC("channel_24_power")',ng-class="{'sorted':(sort.field=='channel_24_power'),'ascending':(sort.asc),'descending':(!sort.asc)}") 2.4 Ghz TX Po
-			th(ng-click='sortC("channel_50_power")',ng-class="{'sorted':(sort.field=='channel_24_power'),'ascending':(sort.asc),'descending':(!sort.asc)}") 5.0 Ghz TX Po
+			th(ng-click='sortC("(client_24+client_50)")',ng-class="{'sorted':(sort.field=='(client_24+client_50)'),'ascending':(sort.asc),'descending':(!sort.asc)}") Client
+			th(ng-click='sortC("client_24")',ng-class="{'sorted':(sort.field=='client_24'),'ascending':(sort.asc),'descending':(!sort.asc)}") 2.4
+			th(ng-click='sortC("client_50")',ng-class="{'sorted':(sort.field=='client_50'),'ascending':(sort.asc),'descending':(!sort.asc)}") 5.0
+			th(ng-click='sortC("channel_24")',ng-class="{'sorted':(sort.field=='channel_24'),'ascending':(sort.asc),'descending':(!sort.asc)}") 2.4 Ch
+			th(ng-click='sortC("channel_50")',ng-class="{'sorted':(sort.field=='channel_50'),'ascending':(sort.asc),'descending':(!sort.asc)}") 5.0 Ch
+			th(ng-click='sortC("channel_24_power")',ng-class="{'sorted':(sort.field=='channel_24_power'),'ascending':(sort.asc),'descending':(!sort.asc)}") 2.4 Pow
+			th(ng-click='sortC("channel_50_power")',ng-class="{'sorted':(sort.field=='channel_24_power'),'ascending':(sort.asc),'descending':(!sort.asc)}") 5.0 Pow
 			th Map
 			th(ng-show='passphrase.length>3') Edit
 	tbody
@@ -41,7 +41,7 @@ table.ui.sortable.celled.table.grey
 			td {{item.channel_24}}
 			td {{item.channel_50}}
 			td {{item.channel_24_power}}
-			td {{item.channel_50_power}}			
+			td {{item.channel_50_power}}
 			td
 				a(ui-sref='monitormap.map({c:"{{item.lat}}\:{{item.lon}}\:16"})')
 					i.icon.marker
@@ -56,7 +56,8 @@ table.ui.sortable.celled.table.grey
 				| Up {{getUpTotal()}}
 				| Down {{ list.length - getUpTotal()}}
 			th(colspan='1')
-			th(colspan='6')
+			th(colspan='9')
 				| Clients 2,4GHz {{getClients24Total()}}
 				| Clients 5GHz {{getClients5Total()}}
-			th(colspan='2')
+			th
+			th(ng-show='passphrase.length>3')
