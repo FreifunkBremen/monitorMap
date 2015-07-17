@@ -7,12 +7,13 @@
 var errors = require('./components/errors');
 var ansible = require('./components/ansible');
 var statistic = require('./components/statistic_api');
+var fetch_info = require('./api/monitormap/fetch');
 var meshviewer = require('./components/meshviewer');
 
-module.exports = function(app) {
+module.exports = function(app,io) {
 
-	app.post('/json/ansible/setChannel', function (req, res) {
-		console.log(req.body);
+	app.post('/api/ansible-playbook/fetch', function (req, res,next) {
+		fetch_info(req.body,res,next,io);
 	});
 	app.route('/json/ansible')
 		.get(function(req, res) {
