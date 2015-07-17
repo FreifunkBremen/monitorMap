@@ -3,7 +3,7 @@ var config = require('../../config/environment');
 
 
 module.exports = function(data,res,next,io) {
-	/*
+
 	if(data.passphrase == config.passphrase){
 		var mac = data.mac.slice(0, 2)+':'+data.mac.slice(2, 4)+':'+data.mac.slice(4, 6)+':'+data.mac.slice(6, 8)+':'+data.mac.slice(8, 10)+':'+data.mac.slice(10, 12);
 		console.log(mac);
@@ -29,5 +29,4 @@ module.exports = function(data,res,next,io) {
 	}else{
 		res.status(403).send('failed').end();
 	}
-	*/
 };
