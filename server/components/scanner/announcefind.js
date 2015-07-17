@@ -35,6 +35,12 @@ var _init = function(){
 							tmp = {
 								mac:data[i].network.mac,
 								name:data[i].network.mac.split(":").join(''),
+								channel_24: config.scanner.channels_24[Math.floor(Math.random() * config.scanner.channels_24.length)],
+								channel_50: config.scanner.channels_50[Math.floor(Math.random() * config.scanner.channels_50.length)],
+								channel_24_power: config.scanner.default_channel_24_power,
+								channel_50_power: config.scanner.default_channel_50_power,
+								lat: config.scanner.latitude,
+								lon: config.scanner.longitude,
 								status:true
 								}
 
