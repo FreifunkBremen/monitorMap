@@ -81,7 +81,11 @@ var _init = function(){
 			{model:models.Node,as:'parent'}
 		]}).then(function(nodes){
   		for(var j in nodes){
-        var ping = new Ping(ipv6calc.toIPv6(config.scanner.ipv6_prefix,correctIp(nodes[j].mac)),nodes[j]);
+        if(nodes[j].name.indexOf("CPE")==-1)
+          var ping = new Ping(ipv6calc.toIPv6(config.scanner.ipv6_prefix,correctIp(nodes[j].mac)),nodes[j]);
+        else{
+          var ping = new Ping(ipv6calc.toIPv6(config.scanner.ipv6_prefix,nodes[j].mac),nodes[j]);
+        }
         ping.on('exit', function(exit,that){
           var tmp = regex.exec(that.data);
           if(tmp!==null){
