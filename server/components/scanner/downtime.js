@@ -95,8 +95,6 @@ var _init = function(){
               });
             }else{
               that.node.updateAttributes({
-                client_24:0,
-                client_50:0,
                 status:false
               }).then(function(){
                 io.emit('monitormap:node:change',that.node);
