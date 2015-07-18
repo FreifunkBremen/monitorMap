@@ -4,11 +4,11 @@ var EventEmitter = require('events').EventEmitter;
 
 var config;
 
-var Ping = module.exports = exports = function Ping(extra_args) {
+var Ping = module.exports = exports = function Ping(extra_args,node) {
   if(!config) {
     throw new Error("Ping is not configured. Call Ping.configure() once for process");
   }
-
+  this.node = node;
   if(extra_args)
     this.args = config.args.concat(extra_args);
   else
