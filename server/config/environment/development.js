@@ -17,6 +17,8 @@ module.exports = {
 		timer_ping_between: 5,
 		//timer_alfred:50,
 		timer_announce:15,
+		timer_announce_between:10,
+		//timer_announce_find:30,
 		timer_meshviewer:360,
 		//socket_alfred:"/tmp/alfred",
 		latitude:53.0698,

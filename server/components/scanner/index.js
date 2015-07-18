@@ -11,10 +11,10 @@ var config = require('../../config/environment');
 
 module.exports = function(io){
   announced(io);
-  announcefind(io);
+  //announcefind(io);
   if(config.scanner.timer_ping_downtime)
     downtime(io);
-  meshviewer.init();
+  //meshviewer.init();
 
   return;
 }

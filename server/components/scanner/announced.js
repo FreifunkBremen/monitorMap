@@ -144,7 +144,6 @@ var _init = function(){
 									if(data[i].node_id == nodes[j].mac.split(":").join('')){
 										exists = true;
 										nodes[j].updateAttributes(tmp).then(function(){
-										//models.Node.update(tmp, {where: {id: nodes[j].id}}).then(function(node){
 											io.emit('monitormap:node:change',nodes[j]);
 										});
 										//break;
@@ -174,7 +173,7 @@ var _init = function(){
 			});
 		});
 	}
-	intervalObj = setInterval(loop,(config.scanner.timer_announce*2)*1000);
+	intervalObj = setInterval(loop,(config.scanner.timer_announce_between)*1000);
 };
 
 module.exports = function(ioInit){
