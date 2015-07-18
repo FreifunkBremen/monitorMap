@@ -52,10 +52,11 @@ module.exports.getJSON = function(fn){
       var node = nodes[i]
       var name = node.mac.replace(/[:-]/g,"");
       var mac  = node.mac.replace(/:/g,"-").split("-");
-      mac[5] = dec2hex(hex2dec(mac[5])-2);
-      
+      if(node.name.indexOf("CPE")==-1)
+        mac[5] = dec2hex(hex2dec(mac[5])-2);
+
       output.nodes.push(name);
-      
+
       output._meta.hostvars[name] = {
         "ansible_ssh_host": ipv6calc.toIPv6(config.scanner.ipv6_prefix, mac.join(':')),
         "node_name":        node.name,
