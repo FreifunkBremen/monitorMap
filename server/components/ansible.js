@@ -52,7 +52,7 @@ module.exports.getJSON = function(fn){
       var node = nodes[i]
       var name = node.mac.replace(/[:-]/g,"");
       var mac  = node.mac.replace(/:/g,"-").split("-");
-      if(nodes[j].name.indexOf("CPE")==-1)
+      if(node.name.indexOf("CPE")==-1)
         mac[5] = dec2hex(hex2dec(mac[5])-2);
 
       output.nodes.push(name);
