@@ -1,7 +1,7 @@
 var models = require('../models');
 var config = require('../../config/environment');
 var ipv6calc = require('ipv6calc');
-var Ping = require("ping-wrapper");
+var Ping = require("../ping");
 
 var intervalObj,io;
 
@@ -82,14 +82,11 @@ var _init = function(){
 		]}).then(function(nodes){
   		for(var j in nodes){
         var ping = new Ping(ipv6calc.toIPv6(config.scanner.ipv6_prefix,correctIp(nodes[j].mac))),data='';
-        ping.on('data', function(exit){
-          data = data+exit;
-        });
-        ping.on('exit', function(exit){
-          var tmp = regex.exec(data);
+        ping.on('exit', function(exit,that){
+          var tmp = regex.exec(that.data);
           if(tmp!==null){
-            var lost = parseInt(tmp[1]),recieved_prozent = 100-parseInt(tmp[1]);
-            if(recieved_prozent > config.scanner.timer_ping_offline){
+            var lost = parseInt(tmp[1])
+            if(lost < config.scanner.timer_ping_offline){
               nodes[j].updateAttributes({
                 status:true,
                 datetime:(new Date().getTime()),
