@@ -81,27 +81,25 @@ var _init = function(){
 			{model:models.Node,as:'parent'}
 		]}).then(function(nodes){
   		for(var j in nodes){
-        var ping = new Ping(ipv6calc.toIPv6(config.scanner.ipv6_prefix,correctIp(nodes[j].mac))),data='';
+        var ping = new Ping(ipv6calc.toIPv6(config.scanner.ipv6_prefix,correctIp(nodes[j].mac)),nodes[j]);
         ping.on('exit', function(exit,that){
           var tmp = regex.exec(that.data);
           if(tmp!==null){
             var lost = parseInt(tmp[1])
             if(lost < config.scanner.timer_ping_offline){
-              nodes[j].updateAttributes({
+              that.node.updateAttributes({
                 status:true,
                 datetime:(new Date().getTime()),
               }).then(function(){
-              //models.Node.update(tmp, {where: {id: nodes[j].id}}).then(function(node){
-                io.emit('monitormap:node:change',nodes[j]);
+                io.emit('monitormap:node:change',that.node);
               });
             }else{
-              nodes[j].updateAttributes({
+              that.node.updateAttributes({
                 client_24:0,
                 client_50:0,
                 status:false
               }).then(function(){
-              //models.Node.update(tmp, {where: {id: nodes[j].id}}).then(function(node){
-                io.emit('monitormap:node:change',nodes[j]);
+                io.emit('monitormap:node:change',that.node);
               });
             }
           }
