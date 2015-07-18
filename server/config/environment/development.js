@@ -22,7 +22,7 @@ module.exports = {
 		latitude:53.0698,
 		longitude:8.8154,
 		channels_24:[1,5,9,13],
-		channels_50:[36, 40, 44, 48, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140
+		channels_50:[36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140],
 		default_channel_50_power:10,
 		default_channel_24_power:10,
 	},
