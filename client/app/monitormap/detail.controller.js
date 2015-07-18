@@ -113,8 +113,8 @@ angular.module('monitormapApp')
 	        f.callback_timezone_changed();
 	        f.scale.clearSelection();
 				}
+				*/
 		});
-		*/
 		$scope.tiles={
 			url:'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 			options:{
