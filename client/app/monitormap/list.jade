@@ -10,7 +10,7 @@ table.ui.sortable.celled.table.grey(styles="font-size:small;")
 			th(ng-click='sortC("createdAt")',ng-class="{'sorted':(sort.field=='createdAt'),'ascending':(sort.asc),'descending':(!sort.asc)}") First Time
 			th(ng-click='sortC("(ports_gb/ports)")',ng-class="{'sorted':(sort.field=='(ports_gb/ports)'),'ascending':(sort.asc),'descending':(!sort.asc)}") Ports GB%
 			th(ng-click='sortC("ports")',ng-class="{'sorted':(sort.field=='ports'),'ascending':(sort.asc),'descending':(!sort.asc)}") Ports
-			th(ng-click='sortC("(client_24+client_50)")',ng-class="{'sorted':(sort.field=='(client_24+client_50)'),'ascending':(sort.asc),'descending':(!sort.asc)}") Client
+			th(ng-click='sortC("(client_24+client_50)")',ng-class="{'sorted':(sort.field=='(client_24+client_50)'),'ascending':(sort.asc),'descending':(!sort.asc)}") Clients
 			th(ng-click='sortC("client_24")',ng-class="{'sorted':(sort.field=='client_24'),'ascending':(sort.asc),'descending':(!sort.asc)}") 2.4
 			th(ng-click='sortC("client_50")',ng-class="{'sorted':(sort.field=='client_50'),'ascending':(sort.asc),'descending':(!sort.asc)}") 5.0
 			th(ng-click='sortC("channel_24")',ng-class="{'sorted':(sort.field=='channel_24'),'ascending':(sort.asc),'descending':(!sort.asc)}") 2.4 Ch
