@@ -29,20 +29,20 @@ var config = require('../config/environment').database,
 		ports:{type: Sequelize.INTEGER},
 		ports_gb:{type: Sequelize.INTEGER},
 
-		traffic_tx_bytes:{type: Sequelize.INTEGER},
-		traffic_tx_packets:{type: Sequelize.INTEGER},
-		traffic_rx_bytes:{type: Sequelize.INTEGER},
-		traffic_rx_packets:{type: Sequelize.INTEGER},
+		traffic_tx_bytes:{type: Sequelize.BIGINT},
+		traffic_tx_packets:{type: Sequelize.BIGINT},
+		traffic_rx_bytes:{type: Sequelize.BIGINT},
+		traffic_rx_packets:{type: Sequelize.BIGINT},
 
-		traffic_tx24_bytes:{type: Sequelize.INTEGER},
-		traffic_tx24_packets:{type: Sequelize.INTEGER},
-		traffic_rx24_bytes:{type: Sequelize.INTEGER},
-		traffic_rx24_packets:{type: Sequelize.INTEGER},
+		traffic_tx24_bytes:{type: Sequelize.BIGINT},
+		traffic_tx24_packets:{type: Sequelize.BIGINT},
+		traffic_rx24_bytes:{type: Sequelize.BIGINT},
+		traffic_rx24_packets:{type: Sequelize.BIGINT},
 
-		traffic_tx50_bytes:{type: Sequelize.INTEGER},
-		traffic_tx50_packets:{type: Sequelize.INTEGER},
-		traffic_rx50_bytes:{type: Sequelize.INTEGER},
-		traffic_rx50_packets:{type: Sequelize.INTEGER},
+		traffic_tx50_bytes:{type: Sequelize.BIGINT},
+		traffic_tx50_packets:{type: Sequelize.BIGINT},
+		traffic_rx50_bytes:{type: Sequelize.BIGINT},
+		traffic_rx50_packets:{type: Sequelize.BIGINT},
 	},{tableName:'node'});
 
 	Node.hasMany(Node,{foreignKey:'parent_id',as:'childrens'});
