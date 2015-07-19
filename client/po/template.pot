@@ -27,5 +27,5 @@ msgid "Tools"
 msgstr ""
 
 #: .tmp/app/monitormap/map.html:1
-msgid "Where I am"
+msgid "Where am I"
 msgstr ""
